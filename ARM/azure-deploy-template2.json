@@ -1,0 +1,356 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+		"sampleStorageAccountName" {
+		    "defaultValue": "SAMPLE STORAGE ACCT NAME",
+			"type": "string"
+		},
+		"virtualMachineName": {
+            "type": "string"
+        },
+        "virtualMachineSize": {
+		    "defaultValue": "Standard_D4s_v3",
+            "type": "string"
+        },
+        "adminUsername": {
+		    "defaultValue": "azureuser",
+            "type": "string"
+        },	
+		"adminPassword": {
+            "type": "securestring"
+        },		
+        "virtualNetworkName": {
+		    "defaultValue": "piraeusvnet",
+            "type": "string"
+        },
+        "networkInterfaceName": {
+		    "defaultValue": "piraeusnetinterface",
+            "type": "string"
+        },
+        "networkSecurityGroupName": {
+		    "defaultValue": "piraeusnetsecgroup",
+            "type": "string"
+        },
+        "diagnosticsStorageAccountType": {
+		    "defaultValue": "Standard_LRS",
+            "type": "string"
+        },
+        "addressPrefix": {
+		    "defaultValue": "10.1.0.0/16",
+            "type": "string"
+        },
+        "subnetName": {
+		    "defaultValue": "piraeussubnet",
+            "type": "string"
+        },
+        "subnetPrefix": {
+		    "defaultValue": "10.1.0.0/24",
+            "type": "string"
+        },
+        "publicIpAddressName": {
+		    "defaultValue": "piraeuspublicip",
+            "type": "string"
+        },
+        "publicIpAddressType": {
+		    "defaultValue": "Dynamic",
+            "type": "string"
+        },
+        "publicIpAddressSku": {
+            "defaultValue": "Basic",
+            "type": "string"
+        },		
+		"configScriptFileUrl": {
+		"defaultValue": "https://raw.githubusercontent.com/skunklab/piraeus_0.9.0_prerelease/master/scripts/vmconfig.ps1",
+		"type": "string",
+		"metadata": {
+		  "description": "Configuration powershell script for vm, e.g., Docker Compose and External Virtual Switch"
+		}
+		}
+    },
+    "variables": {
+        "vnetId": "[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+        "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]",
+		"configExtensionName":"CustomScriptExtension",
+		"diagnosticsStorageAccountName": "[concat('storage', uniqueString(resourceGroup().id))]",
+		"orleansStorageAccountName": "[concat('storage', uniqueString(resourceGroup().id))]"
+    },
+    "resources": [
+        {
+            "name": "[parameters('virtualMachineName')]",
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2016-04-30-preview",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]",
+                "[concat('Microsoft.Storage/storageAccounts/', variables('diagnosticsStorageAccountName'))]"
+            ],
+            "properties": {
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachineName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]",
+                    "windowsConfiguration": {
+                        "provisionVmAgent": "true"
+                    }
+                },
+                "hardwareProfile": {
+                    "vmSize": "[parameters('virtualMachineSize')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2016-Datacenter-with-Containers",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "createOption": "fromImage",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS"
+                        }
+                    },
+                    "dataDisks": []
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "[reference(resourceId(resourceGroup().name, 'Microsoft.Storage/storageAccounts', variables('diagnosticsStorageAccountName')), '2015-06-15').primaryEndpoints['blob']]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "[concat('storage', uniqueString(resourceGroup().id))]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "accountType": "[parameters('diagnosticsStorageAccountType')]"
+            }
+        },
+		{
+            "name": "[variables('orleansStorageAccountName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "accountType": "[parameters('diagnosticsStorageAccountType')]"
+            }
+        },
+		{
+            "name": "[parameters('sampleStorageAccountName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "accountType": "[parameters('diagnosticsStorageAccountType')]"
+            }
+        },
+		{
+            "name": "[concat('storage', uniqueString(resourceGroup().id))]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "accountType": "[parameters('diagnosticsStorageAccountType')]"
+            }
+        },
+        {
+            "name": "[parameters('virtualNetworkName')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2017-08-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('addressPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('subnetName')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('subnetPrefix')]"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[parameters('networkInterfaceName')]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2016-09-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
+                "[concat('Microsoft.Network/publicIpAddresses/', parameters('publicIpAddressName'))]",
+                "[concat('Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "subnet": {
+                                "id": "[variables('subnetRef')]"
+                            },
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIpAddress": {
+                                "id": "[resourceId(resourceGroup().name,'Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]"
+                            }
+                        }
+                    }
+                ],
+                "networkSecurityGroup": {
+                    "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
+                }
+            }
+        },
+        {
+            "name": "[parameters('publicIpAddressName')]",
+            "type": "Microsoft.Network/publicIpAddresses",
+            "apiVersion": "2017-08-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "publicIpAllocationMethod": "[parameters('publicIpAddressType')]"
+            },
+            "sku": {
+                "name": "[parameters('publicIpAddressSku')]"
+            }
+        },
+        {
+            "name": "[parameters('networkSecurityGroupName')]",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2017-06-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "Tcp_80",
+                        "properties": {
+                            "priority": 101,
+                            "protocol": "TCP",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourceAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "destinationPortRange": "80"
+                        }
+                    },
+                    {
+                        "name": "Udp_5683",
+                        "properties": {
+                            "priority": 102,
+                            "protocol": "UDP",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourceAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "destinationPortRange": "5683"
+                        }
+                    },
+                    {
+                        "name": "Tcp_5684",
+                        "properties": {
+                            "priority": 103,
+                            "protocol": "TCP",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourceAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "destinationPortRange": "5684"
+                        }
+                    },
+                    {
+                        "name": "Udp_5883",
+                        "properties": {
+                            "priority": 104,
+                            "protocol": "UDP",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourceAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "destinationPortRange": "5883"
+                        }
+                    },
+                    {
+                        "name": "Tcp_1883",
+                        "properties": {
+                            "priority": 105,
+                            "protocol": "TCP",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourceAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "destinationPortRange": "1883"
+                        }
+                    },
+                    {
+                        "name": "Tcp_8883",
+                        "properties": {
+                            "priority": 106,
+                            "protocol": "TCP",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourceAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "destinationPortRange": "8883"
+                        }
+                    },
+                    {
+                        "name": "default-allow-rdp",
+                        "properties": {
+                            "priority": 1000,
+                            "protocol": "TCP",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourceAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "destinationPortRange": "3389"
+                        }
+                    }
+                ]
+            }
+        },
+		{
+		  "type": "Microsoft.Compute/virtualMachines/extensions",
+		  "name": "[concat(parameters('virtualMachineName'),'/', variables('configExtensionName'))]",
+		  "apiVersion": "2015-06-15",
+		  "location": "[resourceGroup().location]",
+		  "dependsOn": [
+			"[concat('Microsoft.Compute/virtualMachines/', parameters('virtualMachineName'))]"
+		  ],
+		  "properties": {
+			"publisher": "Microsoft.Compute",
+			"type": "CustomScriptExtension",
+			"typeHandlerVersion": "1.9",
+			"autoUpgradeMinorVersion": true,
+			"settings": {
+			  "fileUris": "[split(parameters('configScriptFileUrl'), ' ')]",
+			  "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', 'vmconfig.ps1', ' -store1 ', variables('orleansStorageAccountName'), ' -key1 ', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('orleansStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ' -store2 ', parameters('sampleStorageAccountName'), ' -key2 ', listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('sampleStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
+			}
+		  }
+		}
+    ],
+    "outputs": {
+        "adminUsername": {
+            "type": "string",
+            "value": "[parameters('adminUsername')]"
+        }
+    }
+}

@@ -1,0 +1,777 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualNetworkName": {
+      "defaultValue": "piraeus-vnet",
+      "type": "String"
+    },
+    "gatewayPublicIpAddressesName": {
+      "defaultValue": "gateway-ip",
+      "type": "String"
+    },
+    "gatewayNetworkInterfacesName": {
+      "defaultValue": "gatewayNetworkInterface",
+      "type": "String"
+    },
+    "orleansNetworkInterfacesName": {
+      "defaultValue": "orleansclusterNetworkInterface",
+      "type": "String"
+    },
+    "gatewayAvailabilitySetName": {
+      "defaultValue": "gateway-availibilityset",
+      "type": "String"
+    },
+    "orleansAvailabilitySetName": {
+      "defaultValue": "orleans-availabilityset",
+      "type": "String"
+    },
+    "gatewayNetworkSecurityGroupsName": {
+      "defaultValue": "gateway-nsg",
+      "type": "String"
+    },
+    "orleansNetworkSecurityGroupsName": {
+      "defaultValue": "orleanscluster-nsg",
+      "type": "String"
+    },
+    "gatewayVirtualMachineName": {
+      "defaultValue": "gateway",
+      "type": "String"
+    },
+    "gatewayVirtualMachineSize": {
+      "defaultValue": "Basic_A0",
+      "type": "string",
+      "allowedValues": [
+        "Basic_A0",
+        "Basic_A1",
+        "Basic_A2",
+        "Basic_A3",
+        "Basic_A4",
+        "Standard_A0",
+        "Standard_A1",
+        "Standard_A2",
+        "Standard_A3",
+        "Standard_A4",
+        "Standard_A5",
+        "Standard_A6",
+        "Standard_A7",
+        "Standard_A8",
+        "Standard_A9",
+        "Standard_A10",
+        "Standard_A11",
+        "Standard_D1",
+        "Standard_D2",
+        "Standard_D3",
+        "Standard_D4",
+        "Standard_D11",
+        "Standard_D12",
+        "Standard_D13",
+        "Standard_D14",
+        "Standard_D1_v2",
+        "Standard_D2_v2",
+        "Standard_D3_v2",
+        "Standard_D4_v2",
+        "Standard_D5_v2",
+        "Standard_D11_v2",
+        "Standard_D12_v2",
+        "Standard_D13_v2",
+        "Standard_D14_v2",
+        "Standard_D15_v2",
+        "Standard_DS1",
+        "Standard_DS2",
+        "Standard_DS3",
+        "Standard_DS4",
+        "Standard_DS11",
+        "Standard_DS12",
+        "Standard_DS13",
+        "Standard_DS14",
+        "Standard_DS1_v2",
+        "Standard_DS2_v2",
+        "Standard_DS3_v2",
+        "Standard_DS4_v2",
+        "Standard_DS5_v2",
+        "Standard_DS11_v2",
+        "Standard_DS12_v2",
+        "Standard_DS13_v2",
+        "Standard_DS14_v2"
+      ],
+      "metadata": {
+        "description": "Gateway VM Size."
+      }
+    },
+    "gatewayVirtualMachineUserName": {
+      "defaultValue": null,
+      "type": "String"
+    },
+    "gatewayVirtualMachinePassword": {
+      "defaultValue": null,
+      "type": "SecureString"
+    },
+    "orleansVirtualMachineName": {
+      "defaultValue": "orleanscluster",
+      "type": "String"
+    },
+    "orleansVirtualMachineSize": {
+      "defaultValue": "Basic_A3",
+      "type": "string",
+      "allowedValues": [
+        "Basic_A0",
+        "Basic_A1",
+        "Basic_A2",
+        "Basic_A3",
+        "Basic_A4",
+        "Standard_A0",
+        "Standard_A1",
+        "Standard_A2",
+        "Standard_A3",
+        "Standard_A4",
+        "Standard_A5",
+        "Standard_A6",
+        "Standard_A7",
+        "Standard_A8",
+        "Standard_A9",
+        "Standard_A10",
+        "Standard_A11",
+        "Standard_D1",
+        "Standard_D2",
+        "Standard_D3",
+        "Standard_D4",
+        "Standard_D11",
+        "Standard_D12",
+        "Standard_D13",
+        "Standard_D14",
+        "Standard_D1_v2",
+        "Standard_D2_v2",
+        "Standard_D3_v2",
+        "Standard_D4_v2",
+        "Standard_D5_v2",
+        "Standard_D11_v2",
+        "Standard_D12_v2",
+        "Standard_D13_v2",
+        "Standard_D14_v2",
+        "Standard_D15_v2",
+        "Standard_DS1",
+        "Standard_DS2",
+        "Standard_DS3",
+        "Standard_DS4",
+        "Standard_DS11",
+        "Standard_DS12",
+        "Standard_DS13",
+        "Standard_DS14",
+        "Standard_DS1_v2",
+        "Standard_DS2_v2",
+        "Standard_DS3_v2",
+        "Standard_DS4_v2",
+        "Standard_DS5_v2",
+        "Standard_DS11_v2",
+        "Standard_DS12_v2",
+        "Standard_DS13_v2",
+        "Standard_DS14_v2"
+      ],
+      "metadata": {
+        "description": "Orleans VM Size."
+      }
+    },
+    "orleansVirtualMachineUserName": {
+      "defaultValue": null,
+      "type": "String"
+    },
+    "orleansVirtualMachinePassword": {
+      "defaultValue": null,
+      "type": "SecureString"
+    },
+    "vmVhdStorageAccountName": {
+      "type": "string",
+      "minLength": 3,
+      "metadata": {
+        "description": "Storage account name for VM VHDs."
+      }
+    },
+    "vmDiagnosticsStorageAccountName": {
+      "type": "string",
+      "minLength": 3,
+      "metadata": {
+        "description": "Diagnostics storage account name for VMs."
+      }
+    },
+    "orleansStorageAccountName": {
+      "type": "string",
+      "minLength": 3,
+      "metadata": {
+        "description": "Storage account name for Orleans storage provider."
+      }
+    },
+	"scriptsLocationUrl": {
+		"defaultValue": "https://github.com/skunklab/core2/raw/master",
+		"type": "string",
+		"metadata": {
+			"description": "URL of script location."
+		}
+	},
+	"scriptsFolder": {
+		"defaultValue": "templates",
+		"type": "string",
+		"metadata": {
+			"description": "Folder for scripts."
+		}
+	},
+	"dscExtensionFileName": {
+		"defaultValue": "Main.zip",
+		"type": "string"
+	},
+	"gatewayFirewallScriptName": {
+		"defaultValue": "gatewayFirewall.ps1",
+		"type": "string"
+	},
+	"orleansFirewallScriptName": {
+		"defaultValue": "orleansFirewall.ps1",
+		"type": "string"
+	}    
+  },
+  "variables": {
+    "vmstorageAccountid": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/',resourceGroup().name, '/providers/','Microsoft.Storage/storageAccounts/', parameters('vmVhdStorageAccountName'))]",
+    "diagnosticsAccountid": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/',resourceGroup().name, '/providers/','Microsoft.Storage/storageAccounts/', parameters('vmDiagnosticsStorageAccountName'))]",
+    "orleansAccountid": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/',resourceGroup().name, '/providers/','Microsoft.Storage/storageAccounts/', parameters('orleansStorageAccountName'))]",
+    "gatewayDscExtensionName": "dscExtension",
+	"gatewayFirewallExtensionName":"CustomScriptExtension",
+	"orleansFirewallExtensionName":"CustomScriptExtension"
+  },
+  "resources": [
+    {
+      "comments": "Generalized from resource: '/subscriptions/186698ec-bd4e-4af3-a857-4492ae6535fa/resourceGroups/Piraeus/providers/Microsoft.Compute/availabilitySets/gateway-availibilityset'.",
+      "type": "Microsoft.Compute/availabilitySets",
+      "name": "[parameters('gatewayAvailabilitySetName')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "platformUpdateDomainCount": 5,
+        "platformFaultDomainCount": 2
+      },
+      "resources": [],
+      "dependsOn": []
+    },
+    {
+      "comments": "Generalized from resource: '/subscriptions/186698ec-bd4e-4af3-a857-4492ae6535fa/resourceGroups/Piraeus/providers/Microsoft.Compute/availabilitySets/orleans-availabilityset'.",
+      "type": "Microsoft.Compute/availabilitySets",
+      "name": "[parameters('orleansAvailabilitySetName')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "platformUpdateDomainCount": 5,
+        "platformFaultDomainCount": 2
+      },
+      "resources": [],
+      "dependsOn": []
+    },
+    {
+      "comments": "Generalized from resource: '/subscriptions/186698ec-bd4e-4af3-a857-4492ae6535fa/resourceGroups/Piraeus/providers/Microsoft.Compute/virtualMachines/gateway'.",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[parameters('gatewayVirtualMachineName')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('gatewayAvailabilitySetName'))]"
+        },
+        "hardwareProfile": {
+          "vmSize": "Basic_A0"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "2012-R2-Datacenter",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "[parameters('gatewayVirtualMachineName')]",
+            "createOption": "FromImage",
+            "vhd": {
+              "uri": "[concat('https', '://', parameters('vmVhdStorageAccountName'), '.blob.core.windows.net', concat('/vhds/', parameters('gatewayVirtualMachineName'),'20170225082632.vhd'))]"
+            },
+            "caching": "ReadWrite"
+          },
+          "dataDisks": []
+        },
+        "osProfile": {
+          "computerName": "[parameters('gatewayVirtualMachineName')]",
+          "adminUsername": "azureuser",
+          "windowsConfiguration": {
+            "provisionVMAgent": true,
+            "enableAutomaticUpdates": true
+          },
+          "secrets": [],
+          "adminPassword": "[parameters('gatewayVirtualMachinePassword')]"
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('gatewayNetworkInterfacesName'))]"
+            }
+          ]
+        }
+      },
+      "resources": [
+              {
+                  "name": "Microsoft.Powershell.DSC",
+                  "type": "extensions",
+                  "location": "[resourceGroup().location]",
+                  "apiVersion": "2016-03-30",
+                  "dependsOn": [
+                      "[resourceId('Microsoft.Compute/virtualMachines', parameters('gatewayVirtualMachineName'))]"
+                  ],
+                  "tags": {
+                      "displayName": "DscExt"
+                  },
+                  "properties": {
+                      "publisher": "Microsoft.Powershell",
+                      "type": "DSC",
+                      "typeHandlerVersion": "2.9",
+                      "autoUpgradeMinorVersion": true,
+                      "settings": {
+                          "configuration": {
+                              "url": "[concat(parameters('scriptsLocationUrl'), '/', parameters('scriptsFolder'), '/', parameters('dscExtensionFileName'))]",
+                              "script": "Main.ps1",
+                              "function": "Main"
+                          },
+                          "configurationArguments": {
+                              "nodeName": "[parameters('gatewayVirtualMachineName')]"
+                          }
+                      }
+                  }
+              },
+			  {
+                  "name": "FirewallScript",
+                  "type": "extensions",
+                  "location": "[resourceGroup().location]",
+                  "apiVersion": "2016-03-30",
+                  "dependsOn": [
+                      "[resourceId('Microsoft.Compute/virtualMachines', parameters('gatewayVirtualMachineName'))]"
+                  ],
+                  "tags": {
+                      "displayName": "FirewallScript"
+                  },
+                  "properties": {
+                      "publisher": "Microsoft.Compute",
+                      "type": "CustomScriptExtension",
+                      "typeHandlerVersion": "1.4",
+                      "autoUpgradeMinorVersion": true,
+                      "settings": {
+                          "fileUris": [
+                              "['https://github.com/skunklab/core2/raw/master/templates/gatewayfirewall.ps1']"
+                          ],
+                          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', 'gatewayfirewall.ps1')]"
+                      }
+                  }
+              }
+          ],
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/availabilitySets', parameters('gatewayAvailabilitySetName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('vmVhdStorageAccountName'))]",
+        "[resourceId('Microsoft.Network/networkInterfaces', parameters('gatewayNetworkInterfacesName'))]"
+      ]
+    },
+    {
+      "comments": "Generalized from resource: '/subscriptions/186698ec-bd4e-4af3-a857-4492ae6535fa/resourceGroups/Piraeus/providers/Microsoft.Compute/virtualMachines/orleanscluster'.",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[parameters('orleansVirtualMachineName')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('orleansAvailabilitySetName'))]"
+        },
+        "hardwareProfile": {
+          "vmSize": "Basic_A3"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "2012-R2-Datacenter",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "[parameters('orleansVirtualMachineName')]",
+            "createOption": "FromImage",
+            "vhd": {
+              "uri": "[concat('https', '://', parameters('vmVhdStorageAccountName'), '.blob.core.windows.net', concat('/vhds/', parameters('orleansVirtualMachineName'),'20170225083418.vhd'))]"
+            },
+            "caching": "ReadWrite"
+          },
+          "dataDisks": []
+        },
+        "osProfile": {
+          "computerName": "[parameters('orleansVirtualMachineName')]",
+          "adminUsername": "azureuser",
+          "windowsConfiguration": {
+            "provisionVMAgent": true,
+            "enableAutomaticUpdates": true
+          },
+          "secrets": [],
+          "adminPassword": "[parameters('orleansVirtualMachinePassword')]"
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('orleansNetworkInterfacesName'))]"
+            }
+          ]
+        }
+      },
+      "resources": [],
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/availabilitySets', parameters('orleansAvailabilitySetName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('vmVhdStorageAccountName'))]",
+        "[resourceId('Microsoft.Network/networkInterfaces', parameters('orleansNetworkInterfacesName'))]"
+      ]
+    },
+    {
+      "comments": "Generalized from resource: '/subscriptions/186698ec-bd4e-4af3-a857-4492ae6535fa/resourceGroups/Piraeus/providers/Microsoft.Network/networkInterfaces/gateway938'.",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[parameters('gatewayNetworkInterfacesName')]",
+      "apiVersion": "2016-03-30",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAddress": "10.1.0.4",
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('gatewayPublicIpAddressesName'))]"
+              },
+              "subnet": {
+                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName')), '/subnets/gateway-subnet')]"
+              }
+            }
+          }
+        ],
+        "dnsSettings": {
+          "dnsServers": []
+        },
+        "enableIPForwarding": false,
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('gatewayNetworkSecurityGroupsName'))]"
+        }
+      },
+      "resources": [],
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', parameters('gatewayPublicIpAddressesName'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('gatewayNetworkSecurityGroupsName'))]"
+      ]
+    },
+    {
+      "comments": "Generalized from resource: '/subscriptions/186698ec-bd4e-4af3-a857-4492ae6535fa/resourceGroups/Piraeus/providers/Microsoft.Network/networkInterfaces/orleanscluster537'.",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[parameters('orleansNetworkInterfacesName')]",
+      "apiVersion": "2016-03-30",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAddress": "10.1.1.4",
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName')), '/subnets/orleans-subnet')]"
+              }
+            }
+          }
+        ],
+        "dnsSettings": {
+          "dnsServers": []
+        },
+        "enableIPForwarding": false,
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('orleansNetworkSecurityGroupsName'))]"
+        }
+      },
+      "resources": [],
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('orleansNetworkSecurityGroupsName'))]"
+      ]
+    },
+    {
+      "comments": "Generalized from resource: '/subscriptions/186698ec-bd4e-4af3-a857-4492ae6535fa/resourceGroups/Piraeus/providers/Microsoft.Network/networkSecurityGroups/gateway-nsg'.",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('gatewayNetworkSecurityGroupsName')]",
+      "apiVersion": "2016-03-30",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "default-allow-rdp",
+            "properties": {
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "3389",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1000,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "HTTPIn",
+            "properties": {
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1010,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "MQTT-Any",
+            "properties": {
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "1883",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1020,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "MQTT-Secure",
+            "properties": {
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8883",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1030,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "MQTT-UDP",
+            "properties": {
+              "protocol": "UDP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "5883",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1040,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "CoAP-UDP",
+            "properties": {
+              "protocol": "UDP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "5683",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1050,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "CoAP-TCP",
+            "properties": {
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "5684",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1060,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "HTTPSIn",
+            "properties": {
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "443",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1070,
+              "direction": "Inbound"
+            }
+          }
+        ]
+      },
+      "resources": [],
+      "dependsOn": []
+    },
+    {
+      "comments": "Generalized from resource: '/subscriptions/186698ec-bd4e-4af3-a857-4492ae6535fa/resourceGroups/Piraeus/providers/Microsoft.Network/networkSecurityGroups/orleanscluster-nsg'.",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('orleansNetworkSecurityGroupsName')]",
+      "apiVersion": "2016-03-30",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "default-allow-rdp",
+            "properties": {
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "3389",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1000,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "orleansgateway",
+            "properties": {
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "11111",
+              "sourceAddressPrefix": "10.1.0.0/24",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1010,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "orleansgatewayout",
+            "properties": {
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "11111",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "10.1.0.0/24",
+              "access": "Allow",
+              "priority": 100,
+              "direction": "Outbound"
+            }
+          },
+          {
+            "name": "passivereceiverrule",
+            "properties": {
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80-65000",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 110,
+              "direction": "Outbound"
+            }
+          }
+        ]
+      },
+      "resources": [],
+      "dependsOn": []
+    },
+    {
+      "comments": "Generalized from resource: '/subscriptions/186698ec-bd4e-4af3-a857-4492ae6535fa/resourceGroups/Piraeus/providers/Microsoft.Network/publicIPAddresses/gateway-ip'.",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[parameters('gatewayPublicIpAddressesName')]",
+      "apiVersion": "2016-03-30",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "idleTimeoutInMinutes": 4,
+        "dnsSettings": {
+          "domainNameLabel": "gateway"
+        }
+      },
+      "resources": [],
+      "dependsOn": []
+    },    
+    {
+      "comments": "Generalized from resource: '/subscriptions/186698ec-bd4e-4af3-a857-4492ae6535fa/resourceGroups/Piraeus/providers/Microsoft.Network/virtualNetworks/piraeus-vnet'.",
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[parameters('virtualNetworkName')]",
+      "apiVersion": "2016-03-30",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "10.1.0.0/16"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "gateway-subnet",
+            "properties": {
+              "addressPrefix": "10.1.0.0/24"
+            }
+          },
+          {
+            "name": "orleans-subnet",
+            "properties": {
+              "addressPrefix": "10.1.1.0/24"
+            }
+          }
+        ]
+      },
+      "resources": [],
+      "dependsOn": []
+    },
+    {
+      "comments": "Generalized from resource: '/subscriptions/186698ec-bd4e-4af3-a857-4492ae6535fa/resourceGroups/piraeus/providers/Microsoft.Storage/storageAccounts/piraeusdiag872'.",
+      "type": "Microsoft.Storage/storageAccounts",
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "kind": "Storage",
+      "name": "[parameters('vmDiagnosticsStorageAccountName')]",
+      "apiVersion": "2016-01-01",
+      "location": "[resourceGroup().location]",
+      "tags": {},
+      "properties": {},
+      "resources": [],
+      "dependsOn": []
+    },
+    {
+      "comments": "Generalized from resource: '/subscriptions/186698ec-bd4e-4af3-a857-4492ae6535fa/resourceGroups/piraeus/providers/Microsoft.Storage/storageAccounts/piraeusdisks429'.",
+      "type": "Microsoft.Storage/storageAccounts",
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "kind": "Storage",
+      "name": "[parameters('vmVhdStorageAccountName')]",
+      "apiVersion": "2016-01-01",
+      "location": "[resourceGroup().location]",
+      "tags": {},
+      "properties": {},
+      "resources": [],
+      "dependsOn": []
+    },
+	{
+      "comments": "Generalized from resource: '/subscriptions/186698ec-bd4e-4af3-a857-4492ae6535fa/resourceGroups/piraeus/providers/Microsoft.Storage/storageAccounts/piraeusdisks429'.",
+      "type": "Microsoft.Storage/storageAccounts",
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "kind": "Storage",
+      "name": "[parameters('orleansStorageAccountName')]",
+      "apiVersion": "2016-01-01",
+      "location": "[resourceGroup().location]",
+      "tags": {},
+      "properties": {},
+      "resources": [],
+      "dependsOn": []
+    }
+	
+  ]
+}

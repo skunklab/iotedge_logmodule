@@ -1,0 +1,56 @@
+version: '3.1'
+services:
+  webgateway:
+    env_file:
+      - gateway-config.env
+    container_name: web-server
+    image: skunklab/webgateway
+    restart: always
+    ports:
+      - "80:80/tcp"
+    links:
+      - orleans-silo
+    depends_on:
+      - orleans-silo
+      
+  tcpudpgateway:
+    container_name: tcp-server
+    env_file:
+      - gateway-config.env
+    image: skunklab/tcpudpgateway
+    restart: always
+    volumes:
+       - c:\piraeus:c:\app\logs
+    ports:
+      - "1883:1883/tcp"
+      - "8883:8883/tcp"
+      - "5683:5683/udp"
+      - "5684:5684/tcp"
+      - "5883:5883/udp"
+    links:
+      - orleans-silo
+    depends_on:
+      - orleans-silo
+  orleans-silo:
+    container_name: orleans-silo
+    image: skunklab/orleans-silo
+    restart: always
+    volumes:
+       - c:\piraeus:c:\app\logs
+    environment:
+      - ORLEANS_PROVIDER_DATACONNECTIONSTRING=#ORLEANS_BLOB_STORAGE_CONNECTIONSTRING
+      - ORLEANS_LIVENESS_DATACONNECTIONSTRING=#ORLEANS_BLOB_STORAGE_CONNECTIONSTRING
+      - ORLEANS_AUDIT_DATACONNECTIONSTRING=#AUDIT_BLOB_STORAGE_CONNECTIONSTRING
+      - ORLEANS_DEPLOYMENT_ID=PiraeusDeploymentAzure      
+      - ORLEANS_STORAGE_PROVIDER_TYPE=AzureBlobStore
+      - ORLEANS_STORAGE_CONTAINER_NAME=orleans
+      - ORLEANS_MAXMEMORY_STORAGE_GRAINS=1000000
+      - ORLEANS_DNS_HOSTNAME=orleans-silo
+      - ORLEANS_AUDIT_TABLENAME=audit
+    ports:
+      - "11111:11111/tcp"
+      - "30000:30000/tcp"
+networks:
+  default:
+    external:
+      name: nat

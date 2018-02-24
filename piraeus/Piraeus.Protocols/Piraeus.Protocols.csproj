@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{51658C77-2E00-4D4B-93BA-8A950FF281BE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Piraeus.Protocols</RootNamespace>
+    <AssemblyName>Piraeus.Protocols</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Coap\CoapAckArgs.cs" />
+    <Compile Include="Coap\CoapConstants.cs" />
+    <Compile Include="Coap\CoapMessage.cs" />
+    <Compile Include="Coap\CoapMessageType.cs" />
+    <Compile Include="Coap\CoapOption.cs" />
+    <Compile Include="Coap\CoapOptionCollection.cs" />
+    <Compile Include="Coap\CoapRequest.cs" />
+    <Compile Include="Coap\CoapResetArgs.cs" />
+    <Compile Include="Coap\CoapResponse.cs" />
+    <Compile Include="Coap\CoapServiceType.cs" />
+    <Compile Include="Coap\CoapTimer.cs" />
+    <Compile Include="Coap\CoapTimerArgs.cs" />
+    <Compile Include="Coap\CoapToken.cs" />
+    <Compile Include="Coap\CoapUri.cs" />
+    <Compile Include="Coap\CoapVersionMismatchException.cs" />
+    <Compile Include="Coap\CodeType.cs" />
+    <Compile Include="Coap\DateTimeExtensions.cs" />
+    <Compile Include="Coap\MediaType.cs" />
+    <Compile Include="Coap\MediaTypeConverter.cs" />
+    <Compile Include="Coap\MediaTypeExtensions.cs" />
+    <Compile Include="Coap\MethodType.cs" />
+    <Compile Include="Coap\OptionBuilder.cs" />
+    <Compile Include="Coap\OptionType.cs" />
+    <Compile Include="Coap\OptionTypeExtensions.cs" />
+    <Compile Include="Coap\RequestMessageType.cs" />
+    <Compile Include="Coap\ResponseCodeType.cs" />
+    <Compile Include="Coap\ResponseMessageType.cs" />
+    <Compile Include="Coap\UnsupportedMediaTypeException.cs" />
+    <Compile Include="Coap\UriExtensions.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Mqtt\ByteContainer.cs" />
+    <Compile Include="Mqtt\ConnectAckCode.cs" />
+    <Compile Include="Mqtt\ConnectAckMessage.cs" />
+    <Compile Include="Mqtt\ConnectMessage.cs" />
+    <Compile Include="Mqtt\Constants.cs" />
+    <Compile Include="Mqtt\DisconnectMessage.cs" />
+    <Compile Include="Mqtt\MqttKeepAliveTimer.cs" />
+    <Compile Include="Mqtt\MqttMessage.cs" />
+    <Compile Include="Mqtt\MqttMessageType.cs" />
+    <Compile Include="Mqtt\MqttTimer.cs" />
+    <Compile Include="Mqtt\MqttTimerEventArgs.cs" />
+    <Compile Include="Mqtt\PingRequestMessage.cs" />
+    <Compile Include="Mqtt\PingResponseMessage.cs" />
+    <Compile Include="Mqtt\PublishAckMessage.cs" />
+    <Compile Include="Mqtt\PublishAckType.cs" />
+    <Compile Include="Mqtt\PublishMessage.cs" />
+    <Compile Include="Mqtt\QualityOfServiceLevelCollection.cs" />
+    <Compile Include="Mqtt\QualityOfServiceLevelType.cs" />
+    <Compile Include="Mqtt\SubscribeMessage.cs" />
+    <Compile Include="Mqtt\SubscriptionAckMessage.cs" />
+    <Compile Include="Mqtt\UnsubscribeAckMessage.cs" />
+    <Compile Include="Mqtt\UnsubscribeMessage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

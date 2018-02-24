@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7B2C72A0-0DBA-4DED-96DC-B6AF80A82277}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SkunkLab.Protocols</RootNamespace>
+    <AssemblyName>SkunkLab.Protocols</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Coap\CoapAckArgs.cs" />
+    <Compile Include="Coap\CoapConfig.cs" />
+    <Compile Include="Coap\CoapConstants.cs" />
+    <Compile Include="Coap\CoapMessage.cs" />
+    <Compile Include="Coap\CoapMessageType.cs" />
+    <Compile Include="Coap\CoapOption.cs" />
+    <Compile Include="Coap\CoapOptionCollection.cs" />
+    <Compile Include="Coap\CoapRequest.cs" />
+    <Compile Include="Coap\CoapResetArgs.cs" />
+    <Compile Include="Coap\CoapResponse.cs" />
+    <Compile Include="Coap\CoapServiceType.cs" />
+    <Compile Include="Coap\CoapSession.cs" />
+    <Compile Include="Coap\CoapTimer.cs" />
+    <Compile Include="Coap\CoapTimerArgs.cs" />
+    <Compile Include="Coap\CoapToken.cs" />
+    <Compile Include="Coap\CoapUri2.cs" />
+    <Compile Include="Coap\CoapVersionMismatchException.cs" />
+    <Compile Include="Coap\CodeType.cs" />
+    <Compile Include="Coap\DateTimeExtensions.cs" />
+    <Compile Include="Coap\Handlers\CoapSession.cs" />
+    <Compile Include="Coap\Handlers\RetryTimer.cs" />
+    <Compile Include="Coap\MediaType.cs" />
+    <Compile Include="Coap\MediaTypeConverter.cs" />
+    <Compile Include="Coap\MediaTypeExtensions.cs" />
+    <Compile Include="Coap\MethodType.cs" />
+    <Compile Include="Coap\NoResponseType.cs" />
+    <Compile Include="Coap\OptionBuilder.cs" />
+    <Compile Include="Coap\OptionType.cs" />
+    <Compile Include="Coap\OptionTypeExtensions.cs" />
+    <Compile Include="Coap\RequestMessageType.cs" />
+    <Compile Include="Coap\ResponseCodeType.cs" />
+    <Compile Include="Coap\ResponseMessageType.cs" />
+    <Compile Include="Coap\UnsupportedMediaTypeException.cs" />
+    <Compile Include="Coap\UriExtensions.cs" />
+    <Compile Include="Mqtt\RetryMessageData.cs" />
+    <Compile Include="Mqtt\ByteContainer.cs" />
+    <Compile Include="Mqtt\ConnectAckCode.cs" />
+    <Compile Include="Mqtt\ConnectAckMessage.cs" />
+    <Compile Include="Mqtt\ConnectMessage.cs" />
+    <Compile Include="Mqtt\Constants.cs" />
+    <Compile Include="Mqtt\DisconnectMessage.cs" />
+    <Compile Include="Mqtt\ExchangeLifetime.cs" />
+    <Compile Include="Mqtt\LifetimeEventArgs.cs" />
+    <Compile Include="Mqtt\Handlers\MqttConnackHandler.cs" />
+    <Compile Include="Mqtt\Handlers\MqttConnectHandler.cs" />
+    <Compile Include="Mqtt\Handlers\MqttDisconnectHandler.cs" />
+    <Compile Include="Mqtt\Handlers\MqttMessageHandler.cs" />
+    <Compile Include="Mqtt\Handlers\MqttPingReqHandler.cs" />
+    <Compile Include="Mqtt\Handlers\MqttPingRespHandler.cs" />
+    <Compile Include="Mqtt\Handlers\MqttPubAckHandler.cs" />
+    <Compile Include="Mqtt\Handlers\MqttPubCompHandler.cs" />
+    <Compile Include="Mqtt\Handlers\MqttPublishHandler.cs" />
+    <Compile Include="Mqtt\Handlers\MqttPubRecHandler.cs" />
+    <Compile Include="Mqtt\Handlers\MqttPubRelHandler.cs" />
+    <Compile Include="Mqtt\Handlers\MqttSubAckHandler.cs" />
+    <Compile Include="Mqtt\Handlers\MqttSubscribeHandler.cs" />
+    <Compile Include="Mqtt\Handlers\MqttUnsubAckHandler.cs" />
+    <Compile Include="Mqtt\Handlers\MqttUnsubscribeHandler.cs" />
+    <Compile Include="Mqtt\MqttQuarantineTimer.cs" />
+    <Compile Include="Mqtt\MqttConfig.cs" />
+    <Compile Include="Mqtt\MqttConnectionArgs.cs" />
+    <Compile Include="Mqtt\MqttKeepAliveTimer.cs" />
+    <Compile Include="Mqtt\MqttMessage.cs" />
+    <Compile Include="Mqtt\MqttMessageEventArgs.cs" />
+    <Compile Include="Mqtt\MqttMessageType.cs" />
+    <Compile Include="Mqtt\MqttSession.cs" />
+    <Compile Include="Mqtt\RetryEventArgs.cs" />
+    <Compile Include="Mqtt\MqttUri.cs" />
+    <Compile Include="Mqtt\PingRequestMessage.cs" />
+    <Compile Include="Mqtt\PingResponseMessage.cs" />
+    <Compile Include="Mqtt\PublishAckMessage.cs" />
+    <Compile Include="Mqtt\PublishAckType.cs" />
+    <Compile Include="Mqtt\PublishContainer.cs" />
+    <Compile Include="Mqtt\PublishMessage.cs" />
+    <Compile Include="Mqtt\QualityOfServiceLevelCollection.cs" />
+    <Compile Include="Mqtt\QualityOfServiceLevelType.cs" />
+    <Compile Include="Mqtt\SubscribeMessage.cs" />
+    <Compile Include="Mqtt\SubscriptionAckMessage.cs" />
+    <Compile Include="Mqtt\UnsubscribeAckMessage.cs" />
+    <Compile Include="Mqtt\UnsubscribeMessage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Coap\CoapUri.cs" />
+    <Compile Include="Utilities\GenericDispatcher.cs" />
+    <Compile Include="Utilities\IDispatch.cs" />
+    <Compile Include="Utilities\QueryStringConstants.cs" />
+    <Compile Include="Utilities\RetryMaxAttemptExceededEventArgs.cs" />
+    <Compile Include="Utilities\RetryMessageEventArgs.cs" />
+    <Compile Include="Utilities\RetryTimer.cs" />
+    <Compile Include="Utilities\TaskExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

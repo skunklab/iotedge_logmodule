@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "FSharp.Core": "4.1.17"
+  },
+  "frameworks": {
+    "net461": {}
+  },
+  "runtimes": {
+    "win-anycpu": {},
+    "win": {}
+  }
+}

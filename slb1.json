@@ -1,0 +1,14 @@
+[{
+    "DataTimestamp": "2017-06-26 13:21:56",
+    "mac_address": "B8:27:EB:6D:0F:31",
+    "device_type": "Modbus_StressTestB",
+    "message_index": "3",
+    "address_47132": "07131",
+    "address_47133": "07132",
+    "address_47130": "07129",
+    "address_47131": "07130",
+    "address_47128": "07127",
+    "address_47129": "07128",
+    "address_47126": "07125",       
+    "address_46179": "06178"
+}]

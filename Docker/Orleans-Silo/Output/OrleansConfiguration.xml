@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<OrleansConfiguration xmlns="urn:orleans">
+  <Globals>
+    <StorageProviders>
+      <Provider Name="store" ContainerName="orleans" Type="Orleans.Storage.AzureBlobStorage" DataConnectionString="[BLOB_STORAGE_CONNECTION_STRING]" />
+      <!--<Provider Name="store" ContainerName="NAME_OF_CONTAINER" Type="Orleans.Storage.AzureBlobStorage" DataConnectionString="[BLOB_STORAGE_CONNECTION_STRING]" /> -->
+      <!-- <Provider Name="store" Type="Orleans.Storage.Redis.RedisStorageProvider" DataConnectionString="HOST.redis.cache.windows.net,ssl=True,password=PASSWORD"/> -->
+    </StorageProviders>
+    <!-- <SystemStore SystemStoreType="AzureTable" DeploymentId="PiraeusDeployment" DataConnectionString="DefaultEndpointsProtocol=https;AccountName=ACCOUNT_NAME;AccountKey=ACCOUNT_KEY" /> -->
+    <SystemStore SystemStoreType="AzureTable" DeploymentId="PiraeusDeployment" DataConnectionString="[BLOB_STORAGE_CONNECTION_STRING]" />
+
+    <Liveness LivenessType ="AzureTable" />
+  </Globals>
+  <Defaults>
+    <Networking Address="orleans-silo" Port="11111" />
+    <ProxyingGateway Address="orleans-silo" Port="30000" />
+  </Defaults>
+</OrleansConfiguration>
