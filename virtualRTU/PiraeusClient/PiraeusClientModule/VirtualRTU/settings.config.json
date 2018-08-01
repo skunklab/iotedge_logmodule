@@ -1,0 +1,40 @@
+{
+    "piraeus_hostname": "piraeus.eastus2.cloudapp.azure.com",
+    "psk_identifier": "MyPresharedKey",
+    "psk": "HyaNIRAVFhQ5zawjdXV/+Cun0R39BpOFyYzxDOq5Fj2b0wHACzPBL+CpmG0QA0WFQsC0qJPr8qraKx/VNwEEvbs47eNy0owBjWkEGRtwh9dywPxnlvMwuzIJJX/bWuJUN1zjfEjjtVID9jWd2xhl7G0SQUmmrEThz36yAttRYF8=",
+    "security_token_type": "JWT",
+    "security_key": "SJoPNjLKFR4j1tD5B4xhJStujdvVukWz39DIY3i8abE=",
+    "token_issuer": "http://www.skunklab.io/",
+    "token_audience": "http://www.skunklab.io/",
+    "token_lifetime_minutes": "08:00:00",
+    "token_claims": [
+        {
+            "type": "http://www.skunklab.io/piraeus/name",
+            "value": "vrtu"
+        },
+        {
+            "type": "http://www.skunklab.io/role",
+            "value": "manage"
+        }
+    ],
+    "tcp_max_buffer_size": 1024000,
+    "tcp_block_size": 2048,
+    "port": 8883,
+    "rtu_map": [
+        {
+            "unitId": 0,
+            "publishResource": "http://www.skunklab.io/rtu-0",
+            "subscribeResource": "http://www.skunklab.io/rtu-response"
+        },
+        {
+            "unitId": 1,
+            "publishResource": "http://www.skunklab.io/rtu-1",
+            "subscribeResource": "http://www.skunklab.io/rtu-response"
+        },
+        {
+            "unitId": 2,
+            "publishResource": "http://www.skunklab.io/rtu-2",
+            "subscribeResource": "http://www.skunklab.io/rtu-response"
+        }
+    ]
+}
