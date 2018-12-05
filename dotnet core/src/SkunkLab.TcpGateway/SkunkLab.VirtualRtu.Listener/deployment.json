@@ -1,0 +1,15 @@
+{
+	"modules": {
+		"virtual-rtu": {
+			"name": "virtual-rtu",
+			"version": "1.0",
+			"type": "docker",
+			"status": "running",
+			"config": {
+				"image": "virtualrtu.azurecr.io/virtual-rtu",
+				"tag": "latest",
+				"env": {}
+			}
+		}
+	}
+}

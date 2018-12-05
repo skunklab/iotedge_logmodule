@@ -1,55 +1,94 @@
 ﻿using Newtonsoft.Json;
+using Piraeus.Clients.Mqtt;
+using SkunkLab.Channels;
+using SkunkLab.Channels.Tcp;
 using SkunkLab.Edge.Gateway;
 using SkunkLab.Edge.Gateway.Mqtt;
+using SkunkLab.Protocols.Mqtt;
 using SkunkLab.Security.Tokens;
 using SkunkLab.VirtualRtu.Adapters;
+using SkunkLab.VirtualRtu.ModBus;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HackHarness
 {
     class Program
     {
+
+        private static TestClient scadaClient;
+        private static PiraeusMqttClient mqttClient;
+        private static IChannel mqttChannel;
+        private static CancellationTokenSource mqttSource;
+        
         static void Main(string[] args)
         {
-            //string jstring = "{\"claims\":[{\"claimType\":\"http://www.schneider-electric.com/virtualrtu/name\",\"value\":\"rtu1\"},{\"claimType\":\"http://www.schneider-electric.com/virtualrtu/unitid\",\"value\":\"1\"},{\"claimType\":\"http://www.schneider-electric.com/virtualrtu/role\",\"value\":\"gatewaydevice\"},{\"claimType\":\"http://www.schneider-electric.com/virtualrtu/fieldgateway\",\"value\":\"fieldgateway1\"}]}";
-            //Claimset cs1 = JsonConvert.DeserializeObject<Claimset>(jstring);
+            Thread.Sleep(10000);
+            CreateMqttClient();
+            scadaClient = new TestClient(502);
 
-            //RtuMap rmap1 = new RtuMap();
-            //rmap1.AddResource(3, "http://www.rtu.com/rtu1-in", "http://www.rtu.com/rtu1-out");
-            //string s = JsonConvert.SerializeObject(rmap1);
-
-           
-
+            byte[] payload = Encoding.UTF8.GetBytes("My payload");
+            MbapHeader header = new MbapHeader() { UnitId = 1, ProtocolId = 0, TransactionId = 111, Length = (ushort)payload.Length };
+            scadaClient.Send(header, payload);
 
 
-            //byte[] psk = new byte[2] { 1, 2 };
-            //Claimset cs = new Claimset();
-            //cs.AddClaim("type1", "value1");
 
-            //RtuMap rmap = new RtuMap();
-            //rmap.AddResource(4, "in", "out");
-            
-            //EdgeConfig config = new EdgeConfig("myhost", 8883, "myident", psk, "key", 8, "issuer", "aud", 101, 1001, 90, cs, rmap, "moduleCS");
-           
-
-            //string js = JsonConvert.SerializeObject(config);
+            Console.ReadKey();
 
 
 
 
-            EdgeTwin edgeTwin = new EdgeTwin();
-            Task task = edgeTwin.ConnectAsync();
-            Task.WaitAll(task);
+        }
 
-            //RtuMap map = new RtuMap();
-            //map.AddResource(11, "http://www.rtu.com/rtu1-in", "http://www.rtu.com/rtu1-out");
+        private static void CreateMqttClient()
+        {
+            string token = GetSecurityToken();
+            //piraeus.eastus2.cloudapp.azure.com
+            string hostname = "piraeus.eastus2.cloudapp.azure.com";
+            mqttSource = new CancellationTokenSource();
+            string pskString = "The quick brown fox";
+            byte[] psk = Encoding.UTF8.GetBytes(pskString);
+            mqttChannel = new TcpClientChannel(hostname, 8883, null, "Key1", psk, 102400, mqttSource.Token);
+            mqttClient = new PiraeusMqttClient(new SkunkLab.Protocols.Mqtt.MqttConfig(90.0), mqttChannel);
+            Task<ConnectAckCode> t = mqttClient.ConnectAsync("c1", "JWT", token, 90);
+            Task.WaitAll(t);
+            ConnectAckCode code = t.Result;
 
-            //string json = JsonConvert.SerializeObject(map);
 
+
+            string topicUriString = "http://wwww.skunklab.io/vrtu/alberta/unitid1-in";
+            mqttClient.SubscribeAsync(topicUriString, SkunkLab.Protocols.Mqtt.QualityOfServiceLevelType.AtMostOnce, RtuIn);
+
+        }
+
+
+        private static string GetSecurityToken()
+        {
+            string issuer = "http://www.skunklab.io/";
+            string audience = "http://www.skunklab.io/";
+            string key = "SJoPNjLKFR4j1tD5B4xhJStujdvVukWz39DIY3i8abE=";
+            int min = 1000;
+            List<Claim> claims = new List<Claim>();
+            claims.Add(new Claim("http://www.skunklab.io/name", "fieldgateway1"));
+            claims.Add(new Claim("http://www.skunklab.io/role", "device"));
+
+            JsonWebToken jwt = new JsonWebToken(key, claims, min, issuer, audience);
+            return jwt.ToString();
+        }
+
+        private static void RtuIn(string uriString, string contentType, byte[] message)
+        {
+            Console.WriteLine("message received");
+            string ct = "application/octet-stream";
+            string topicUriString = "http://wwww.skunklab.io/vrtu/alberta/unitid1-out";
+            Task task = mqttClient.PublishAsync(SkunkLab.Protocols.Mqtt.QualityOfServiceLevelType.AtMostOnce, topicUriString, ct, message);
+            Task.WhenAll(task);
         }
 
 

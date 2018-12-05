@@ -6,11 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SkunkLab.Channels\SkunkLab.Channels\SkunkLab.Channels.csproj" />
-    <ProjectReference Include="..\SkunkLab.Clients\SkunkLab.Clients.csproj" />
-    <ProjectReference Include="..\SkunkLab.Protocols\SkunkLab.Protocols.csproj" />
-    <ProjectReference Include="..\SkunkLab.Security\SkunkLab.Security.csproj" />
-    <ProjectReference Include="..\SkunkLab.VirtualRtu\SkunkLab.VirtualRtu.csproj" />
+    <PackageReference Include="SkunkLab.VirtualRtu" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

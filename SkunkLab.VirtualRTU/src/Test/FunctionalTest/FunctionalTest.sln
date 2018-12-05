@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2019
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkunkLab.VirtualRtu.Server", "..\..\SkunkLab.VirtualRtu.Server\SkunkLab.VirtualRtu.Server.csproj", "{7B71B6FA-F68F-49FC-BDEE-55A5097D7A67}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestScadaClient", "..\..\TestScadaClient\TestScadaClient\TestScadaClient.csproj", "{CBFFA092-A00F-4EBC-9699-3A86CD685F43}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkunkLab.VirtualRtu.Core", "..\..\SkunkLab.VirtualRtu\SkunkLab.VirtualRtu.Core.csproj", "{9C99F430-D385-4BB4-B861-D5102EB69E75}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkunkLab.Clients.Core", "..\..\..\..\SkunkLab.Core\src\SkunkLab.Clients.Core\SkunkLab.Clients.Core.csproj", "{F30B997D-AB48-43CD-BB86-B94A9C201610}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkunkLab.Channels.Core", "..\..\..\..\SkunkLab.Core\src\SkunkLab.Channels.Core\SkunkLab.Channels.Core\SkunkLab.Channels.Core.csproj", "{7FE4E098-3F75-4F32-9A73-237979EC08EF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B71B6FA-F68F-49FC-BDEE-55A5097D7A67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B71B6FA-F68F-49FC-BDEE-55A5097D7A67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B71B6FA-F68F-49FC-BDEE-55A5097D7A67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B71B6FA-F68F-49FC-BDEE-55A5097D7A67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBFFA092-A00F-4EBC-9699-3A86CD685F43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBFFA092-A00F-4EBC-9699-3A86CD685F43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBFFA092-A00F-4EBC-9699-3A86CD685F43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBFFA092-A00F-4EBC-9699-3A86CD685F43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C99F430-D385-4BB4-B861-D5102EB69E75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C99F430-D385-4BB4-B861-D5102EB69E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C99F430-D385-4BB4-B861-D5102EB69E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C99F430-D385-4BB4-B861-D5102EB69E75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F30B997D-AB48-43CD-BB86-B94A9C201610}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F30B997D-AB48-43CD-BB86-B94A9C201610}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F30B997D-AB48-43CD-BB86-B94A9C201610}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F30B997D-AB48-43CD-BB86-B94A9C201610}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FE4E098-3F75-4F32-9A73-237979EC08EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FE4E098-3F75-4F32-9A73-237979EC08EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FE4E098-3F75-4F32-9A73-237979EC08EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FE4E098-3F75-4F32-9A73-237979EC08EF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {71C111A2-79E0-400E-A54D-0869B62024F6}
+	EndGlobalSection
+EndGlobal

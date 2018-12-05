@@ -1,0 +1,59 @@
+{
+  "channels": {
+    "tcp": {
+      "useLengthPrefix": false,
+      "authenticate": false,
+      "blockSize": 16383,
+      "maxBufferSize": 6553500,
+      "ports": [
+        8883,
+        5684,
+        1883
+      ],
+      "hostname": "localhost"
+    }
+  },
+  "protocols": {
+    "mqtt": {
+      "keepAliveSeconds": 180.0,
+      "ackTimeoutSeconds": 2.0,
+      "ackRandomFactor": 1.5,
+      "maxRetransmit": 4,
+      "maxLatencySeconds": 100.0
+    },
+    "coap": {
+      "hostname": "www.skunklab.io",
+      "autoRetry": false,
+      "observeOption": true,
+      "noResponseOption": true,
+      "nstart": 1,
+      "defaultLeisure": 4.0,
+      "probingRate": 1.0,
+      "keepAliveSeconds": 180.0,
+      "ackTimeoutSeconds": 2.0,
+      "ackRandomFactor": 1.5,
+      "maxRetransmit": 4,
+      "maxLatencySeconds": 100.0
+    }
+  },
+  "identity": {
+    "client": {
+      "identityClaimType": "http://www.skunklab.io/name",
+      "indexKeys": "Index1;Index2",
+      "indexValues": "http://www.skunklab.io/index1;http://www.skunklab.io/index2"
+    },
+    "service": {
+      "claimTypes": "http://www.skunklab.io/claim1;http://www.skunklab.io/claim2",
+      "claimValues": "claim1;claim2"
+    }
+  },
+  "security": {
+    "client": {
+      "tokenType": "JWT",
+      "symmetricKey": "OxZ6aTbU6uCgeOQpo2gYHyCV05V3SwINZB0Wqk5/mGs=",
+      "issuer": "http://www.skunklab.io/piraeus",
+      "audience": "http://www.skunklab.io/piraeus"
+    },
+    "service": {}
+  }
+}

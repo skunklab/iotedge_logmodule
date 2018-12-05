@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2019
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Piraeus.Grains", "Piraeus.Grains\Piraeus.Grains.csproj", "{68C6DEF5-95FF-48DE-8B52-DA968A0383F5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Piraeus.GrainInterfaces", "Piraeus.GrainInterfaces\Piraeus.GrainInterfaces.csproj", "{B0186545-DDE3-4F67-9C0D-778D56AA123C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Capl.Core", "Capl.Core\Capl.Core.csproj", "{D2A19777-3406-4281-92BC-B315BBDEC8FA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Piraeus.Core", "Piraeus.Core\Piraeus.Core.csproj", "{C3F1D18F-A002-4C68-9091-A0154FB73279}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkunkLab.Protocols.Core", "SkunkLab.Protocols.Core\SkunkLab.Protocols.Core.csproj", "{0BDE1982-2A67-46D6-B443-6C96ADE3D222}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkunkLab.Security.Core", "SkunkLab.Security.Core\SkunkLab.Security.Core.csproj", "{C9435B27-A231-4F38-AB74-69BC7F69B48D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68C6DEF5-95FF-48DE-8B52-DA968A0383F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68C6DEF5-95FF-48DE-8B52-DA968A0383F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68C6DEF5-95FF-48DE-8B52-DA968A0383F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68C6DEF5-95FF-48DE-8B52-DA968A0383F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0186545-DDE3-4F67-9C0D-778D56AA123C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0186545-DDE3-4F67-9C0D-778D56AA123C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0186545-DDE3-4F67-9C0D-778D56AA123C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0186545-DDE3-4F67-9C0D-778D56AA123C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2A19777-3406-4281-92BC-B315BBDEC8FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2A19777-3406-4281-92BC-B315BBDEC8FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2A19777-3406-4281-92BC-B315BBDEC8FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2A19777-3406-4281-92BC-B315BBDEC8FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3F1D18F-A002-4C68-9091-A0154FB73279}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3F1D18F-A002-4C68-9091-A0154FB73279}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3F1D18F-A002-4C68-9091-A0154FB73279}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3F1D18F-A002-4C68-9091-A0154FB73279}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BDE1982-2A67-46D6-B443-6C96ADE3D222}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BDE1982-2A67-46D6-B443-6C96ADE3D222}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BDE1982-2A67-46D6-B443-6C96ADE3D222}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BDE1982-2A67-46D6-B443-6C96ADE3D222}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9435B27-A231-4F38-AB74-69BC7F69B48D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9435B27-A231-4F38-AB74-69BC7F69B48D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9435B27-A231-4F38-AB74-69BC7F69B48D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9435B27-A231-4F38-AB74-69BC7F69B48D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DFCDBE1A-992B-41C6-B35E-524546B1EE29}
+	EndGlobalSection
+EndGlobal

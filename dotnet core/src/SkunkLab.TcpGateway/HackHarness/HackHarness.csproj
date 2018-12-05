@@ -8,6 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SkunkLab.Edge\SkunkLab.Edge.csproj" />
     <ProjectReference Include="..\SkunkLab.Security\SkunkLab.Security.csproj" />
+    <ProjectReference Include="..\SkunkLab.VirtualRtu\SkunkLab.VirtualRtu.csproj" />
   </ItemGroup>
 
 </Project>

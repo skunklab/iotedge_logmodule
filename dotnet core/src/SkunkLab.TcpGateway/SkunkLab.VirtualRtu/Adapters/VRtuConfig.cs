@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace SkunkLab.VirtualRtu.Adapters
 {
+    [Serializable]
+    [JsonObject]
     public class VRtuConfig
     {
         public VRtuConfig()
@@ -21,10 +23,12 @@ namespace SkunkLab.VirtualRtu.Adapters
 
             if (!string.IsNullOrEmpty(jsonString))
             {
+                Console.WriteLine("NOT EMPTY");
                 return JsonConvert.DeserializeObject<VRtuConfig>(jsonString);
             }
             else
             {
+                Console.WriteLine("EMPTY");
                 string uriString = System.Environment.GetEnvironmentVariable("VRTU_CONFIG_SAS_URI");
                 return LoadFromConnectionString(uriString);
             }

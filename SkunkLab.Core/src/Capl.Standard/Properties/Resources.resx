@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AuthorizationPolicySchema" xml:space="preserve">
+    <value>&lt;xs:schema targetNamespace="http://schemas.authz.org/capl"
+    elementFormDefault="qualified"
+    xmlns="http://schemas.authz.org/capl"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;xs:element name="AuthorizationPolicy" type="AuthorizationPolicyType" /&gt;
+  &lt;xs:element name="LogicalAnd" type="LogicalConnectiveType" /&gt;
+  &lt;xs:element name="LogicalOr" type="LogicalConnectiveType" /&gt;
+  &lt;xs:element name="Rule" type="RuleType" /&gt;
+  &lt;xs:element name="Operation" type="OperationType" /&gt;
+  &lt;xs:element name="Match" type="MatchType" /&gt;
+  &lt;xs:element name="Transforms" type="TransformsType" /&gt;
+  &lt;xs:element name="Transform" type="TransformType" /&gt;
+  &lt;xs:element name="TargetClaim" type="LiteralClaimType" /&gt;
+  &lt;xs:complexType name="AuthorizationPolicyType"&gt;
+    &lt;xs:sequence&gt;      
+      &lt;xs:choice&gt;
+        &lt;xs:element ref="LogicalAnd"/&gt;
+        &lt;xs:element ref="LogicalOr"/&gt;
+        &lt;xs:element ref="Rule" /&gt;
+      &lt;/xs:choice&gt;
+      &lt;xs:element ref="Transforms" minOccurs="0" /&gt;
+    &lt;/xs:sequence&gt;
+    &lt;xs:attribute name="PolicyID" type="xs:anyURI" use="optional" /&gt;
+    &lt;xs:attribute name="Delegation" type="xs:boolean" use="optional" default="false" /&gt;
+  &lt;/xs:complexType&gt;
+  &lt;xs:complexType name="LogicalConnectiveType"&gt;
+    &lt;xs:complexContent&gt;
+      &lt;xs:extension base="TermType"&gt;
+        &lt;xs:choice maxOccurs="unbounded"&gt;
+          &lt;xs:element ref="LogicalAnd" /&gt;
+          &lt;xs:element ref="LogicalOr" /&gt;
+          &lt;xs:element ref="Rule" /&gt;
+        &lt;/xs:choice&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:complexContent&gt;
+  &lt;/xs:complexType&gt;  
+  &lt;xs:complexType name="TermType" abstract="true"&gt;
+    &lt;xs:attribute name="Evaluates" type="xs:boolean" /&gt;
+    &lt;xs:attribute name="TermID" type="xs:anyURI" /&gt;
+  &lt;/xs:complexType&gt;
+  &lt;xs:complexType name="RuleType"&gt;
+    &lt;xs:complexContent&gt;
+      &lt;xs:extension base="TermType"&gt;
+        &lt;xs:sequence&gt;
+          &lt;xs:element ref="Operation" /&gt;
+          &lt;xs:element ref="Match" /&gt;
+        &lt;/xs:sequence&gt;
+        &lt;xs:attribute name="Issuer" type="xs:string" use="optional" /&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:complexContent&gt;
+  &lt;/xs:complexType&gt;
+  &lt;xs:complexType name="MatchType" mixed="true"&gt;
+    &lt;xs:attribute name="Type" type="MatchTypes" use="required" /&gt;
+    &lt;xs:attribute name="ClaimType" type="xs:string" use="required" /&gt;
+    &lt;xs:attribute name="Required" type="xs:boolean" use="optional" default="true" /&gt;
+  &lt;/xs:complexType&gt;
+  &lt;xs:complexType name="OperationType" mixed="true"&gt;
+    &lt;xs:attribute name="OperationType" type="OperationTypes" /&gt;
+  &lt;/xs:complexType&gt;
+  &lt;xs:complexType name="TransformsType"&gt;
+    &lt;xs:sequence&gt;
+      &lt;xs:element ref="Transform" maxOccurs="unbounded" /&gt;
+    &lt;/xs:sequence&gt;
+  &lt;/xs:complexType&gt;
+  &lt;xs:complexType name="TransformType" abstract="true"&gt;
+    &lt;xs:sequence&gt;
+      &lt;xs:element ref="Match" /&gt;
+      &lt;xs:element ref="TargetClaim" minOccurs="0" /&gt;
+      &lt;xs:choice minOccurs="0"&gt;
+        &lt;xs:element ref="LogicalAnd" /&gt;
+        &lt;xs:element ref="LogicalOr" /&gt;
+        &lt;xs:element ref="Rule" /&gt;
+      &lt;/xs:choice&gt;
+    &lt;/xs:sequence&gt;
+    &lt;xs:attribute name="Type" type="TransformTypes" use="required" /&gt;
+  &lt;/xs:complexType&gt;
+  &lt;xs:complexType name="LiteralClaimType" mixed="true"&gt;
+    &lt;xs:attribute name="ClaimType" type="xs:string" use="required" /&gt;
+  &lt;/xs:complexType&gt;
+  &lt;xs:simpleType name="OperationTypes"&gt;
+    &lt;xs:restriction base="xs:anyURI"&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/operation#Equal" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/operation#NotEqual" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/operation#Exists" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/operation#EqualDateTime" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/operation#EqualNumeric" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/operation#GreaterThan" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/operation#GreaterThanOrEqual" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/operation#GreaterThanDateTime" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/operation#GreaterThanOrEqualDateTime" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/operation#LessThan" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/operation#LessThanDateTime" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/operation#LessThanOrEqual" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/operation#LessThanOrEqualDateTime" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/operation#Contains" /&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;  
+  &lt;xs:simpleType name="MatchTypes"&gt;
+    &lt;xs:restriction base="xs:anyURI"&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/match#Literal" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/match#Pattern" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/match#ComplexType" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/match#Any" /&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+  &lt;xs:simpleType name="TransformTypes"&gt;
+    &lt;xs:restriction base="xs:anyURI"&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/transform#Add" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/transform#Remove" /&gt;
+      &lt;xs:enumeration value="http://schemas.authz.org/capl/transform#Replace" /&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+&lt;/xs:schema&gt;</value>
+  </data>
+  <data name="IssuePolicySchema" xml:space="preserve">
+    <value>&lt;xs:schema targetNamespace="http://schemas.authz.org/cipl"
+    elementFormDefault="qualified"
+    xmlns="http://schemas.authz.org/cipl" xmlns:az="http://schemas.authz.org/capl"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;xs:import namespace="http://schemas.authz.org/capl" /&gt;
+  &lt;xs:element name="IssuePolicy" type="IssuePolicyType" /&gt;
+  &lt;xs:complexType name="IssuePolicyType"&gt;
+    &lt;xs:sequence&gt;
+      &lt;xs:element name="Transforms" type="az:TransformsType" /&gt;
+    &lt;/xs:sequence&gt;
+    &lt;xs:attribute name="PolicyID" type="xs:anyURI" use="optional" /&gt;
+  &lt;/xs:complexType&gt;
+&lt;/xs:schema&gt;</value>
+  </data>
+</root>

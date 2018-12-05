@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkunkLab.Clients.Core", "SkunkLab.Clients.Core.csproj", "{656A5119-5C6E-4DE0-B1D9-CA0D42EA81A6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{656A5119-5C6E-4DE0-B1D9-CA0D42EA81A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{656A5119-5C6E-4DE0-B1D9-CA0D42EA81A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{656A5119-5C6E-4DE0-B1D9-CA0D42EA81A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{656A5119-5C6E-4DE0-B1D9-CA0D42EA81A6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F0675BEB-DC0E-458D-B338-07B40F120B96}
+	EndGlobalSection
+EndGlobal

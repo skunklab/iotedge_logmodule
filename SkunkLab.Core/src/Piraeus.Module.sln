@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2019
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Piraeus.Module", "Piraeus.Module\Piraeus.Module.csproj", "{565F8CC3-9FCE-44AC-9ED6-71B3A5A0BA5D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Piraeus.Core", "Piraeus.Core\Piraeus.Core.csproj", "{EA00A482-DF6F-4B74-96DF-6AE38CC4666A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Capl.Core", "Capl.Core\Capl.Core.csproj", "{88F85726-A66C-4EE2-AEFE-34F1D57BBAB8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{565F8CC3-9FCE-44AC-9ED6-71B3A5A0BA5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{565F8CC3-9FCE-44AC-9ED6-71B3A5A0BA5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{565F8CC3-9FCE-44AC-9ED6-71B3A5A0BA5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{565F8CC3-9FCE-44AC-9ED6-71B3A5A0BA5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA00A482-DF6F-4B74-96DF-6AE38CC4666A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA00A482-DF6F-4B74-96DF-6AE38CC4666A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA00A482-DF6F-4B74-96DF-6AE38CC4666A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA00A482-DF6F-4B74-96DF-6AE38CC4666A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88F85726-A66C-4EE2-AEFE-34F1D57BBAB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88F85726-A66C-4EE2-AEFE-34F1D57BBAB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88F85726-A66C-4EE2-AEFE-34F1D57BBAB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88F85726-A66C-4EE2-AEFE-34F1D57BBAB8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD256F50-F08B-4DAF-9068-F904323AACFE}
+	EndGlobalSection
+EndGlobal

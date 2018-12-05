@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>Orleans.Storage.Redis</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.OrleansRuntime" Version="2.1.2" />
+    <PackageReference Include="StackExchange.Redis.StrongName.Core" Version="1.1.605" />
+  </ItemGroup>
+
+</Project>

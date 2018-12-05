@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Capl</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Description>Claims Authorization Policy Language for .NET Standard 2.0.3</Description>
+    <PackageProjectUrl>https://github.com/skunklab/SkunkLab.Core</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/skunklab/SkunkLab.Core/master/LICENSE</PackageLicenseUrl>
+    <PackageTags>CAPL</PackageTags>
+    <PackageReleaseNotes>.NET Standard v2.0.3 package for CAPL</PackageReleaseNotes>
+  </PropertyGroup>
+
+</Project>

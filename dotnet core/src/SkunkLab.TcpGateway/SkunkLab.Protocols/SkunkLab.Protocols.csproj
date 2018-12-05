@@ -2,12 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="SkunkLab.Security">
-      <HintPath>..\..\..\..\core\src\SkunkLab\SkunkLab.Security\SkunkLab.Security\bin\Release\SkunkLab.Security.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\SkunkLab.Security\SkunkLab.Security.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>SkunkLab.TcpGateway</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.Client" Version="2.1.2" />
+    <PackageReference Include="Microsoft.Orleans.OrleansAzureUtils" Version="2.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Piraeus.Adapters\Piraeus.Adapters.Core.csproj" />
+    <ProjectReference Include="..\SkunkLab.Channels.Core\SkunkLab.Channels.Core\SkunkLab.Channels.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="orleansconfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="piraeusconfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

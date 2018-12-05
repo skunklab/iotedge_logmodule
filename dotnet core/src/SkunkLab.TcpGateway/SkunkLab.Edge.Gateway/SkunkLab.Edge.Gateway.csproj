@@ -6,7 +6,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\SkunkLab.Channels\SkunkLab.Channels\SkunkLab.Channels.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\SkunkLab.Clients\SkunkLab.Clients.csproj">
+      <Private>true</Private>
+    </ProjectReference>
     <ProjectReference Include="..\SkunkLab.Edge\SkunkLab.Edge.csproj" />
+    <ProjectReference Include="..\SkunkLab.Protocols\SkunkLab.Protocols.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\SkunkLab.Security\SkunkLab.Security.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\VirtualRtu.Common\VirtualRtu.Common.csproj" />
   </ItemGroup>
 
 </Project>

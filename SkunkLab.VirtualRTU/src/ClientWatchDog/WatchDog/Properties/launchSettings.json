@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WatchDog": {
+      "commandName": "Project",
+      "commandLineArgs": "1000"
+    }
+  }
+}

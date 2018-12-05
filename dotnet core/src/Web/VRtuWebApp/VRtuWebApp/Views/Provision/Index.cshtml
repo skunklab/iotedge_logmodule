@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewData["Title"] = "Provision";
+
+}
+
+@model RtuModel
+
+<h2>Provision RTU for Virtual RTU</h2>
+
+@if (!string.IsNullOrEmpty(@ViewBag.LUSS))
+{
+    <p>Use this LUSS in Module Twin.</p>
+    <b>@ViewBag.LUSS</b>
+    <p></p>
+
+}
+else
+{
+
+@using (Html.BeginForm("Index", "Provision", FormMethod.Post))
+{
+
+    <table>
+        <tr>
+            <td>Unit ID</td>
+            <td>@Html.TextBoxFor(m => m.UnitId, new { @class = "form-control" })  </td>
+        </tr>
+        <tr>
+            <td>Virtual RTU ID</td>
+            <td>@Html.TextBoxFor(m => m.VirtualRtuId, new { @class = "form-control" })  </td>
+        </tr>
+        <tr>
+            <td>Device ID</td>
+            <td>@Html.TextBoxFor(m => m.DeviceId, new { @class = "form-control" })  </td>
+        </tr>
+        <tr>
+            <td>Module ID</td>
+            <td>@Html.TextBoxFor(m => m.ModuleId, new { @class = "form-control" })  </td>
+        </tr>
+        <tr>
+            <td>LUSS Expiration Minutes</td>
+            <td>@Html.TextBoxFor(m => m.ExpirationMinutes, new { @class = "form-control" })  </td>
+        </tr>
+    </table>
+    <button type="submit">Create</button>
+
+}
+}

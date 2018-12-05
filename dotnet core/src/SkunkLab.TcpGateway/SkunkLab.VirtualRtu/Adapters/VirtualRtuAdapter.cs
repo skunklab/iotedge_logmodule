@@ -1,7 +1,6 @@
 ﻿using Piraeus.Clients.Mqtt;
 using SkunkLab.Channels;
 using SkunkLab.Channels.Tcp;
-using SkunkLab.Protocols.Mqtt;
 using SkunkLab.VirtualRtu.ModBus;
 using System;
 using System.Collections.Generic;
@@ -17,20 +16,13 @@ namespace SkunkLab.VirtualRtu.Adapters
     /// </summary>
     public class VirtualRtuAdapter : IDisposable
     {
-        public VirtualRtuAdapter(VRtuConfig rtuConfig, RtuMap map, MqttConfig mqttConfig, IChannel channel)
+        public VirtualRtuAdapter(VRtuConfig rtuConfig, RtuMap map, IChannel channel)
         {
             this.rtuConfig = rtuConfig;
+            this.map = map;
             cache = new MbapCache();
             source = new CancellationTokenSource();
-
-            //open the piraeus channel
-            piraeusChannel = new TcpClientChannel(rtuConfig.Hostname, rtuConfig.Port, rtuConfig.PskIdentity, rtuConfig.Psk, rtuConfig.MaxBufferSize, source.Token);
-            piraeusChannel.OnClose += PiraeusChannel_OnClose;
-            //piraeusChannel.OnError += PiraeusChannel_OnError;
-
-            //create the mqtt client
-            client = new PiraeusMqttClient(mqttConfig, piraeusChannel);
-            client.OnChannelError += Client_OnChannelError;
+            subscribed = new HashSet<ushort>();            
 
             Channel = channel;
             Channel.OnClose += Channel_OnClose;
@@ -38,88 +30,87 @@ namespace SkunkLab.VirtualRtu.Adapters
             Channel.OnReceive += Channel_OnReceive;
             Channel.OnOpen += Channel_OnOpen;            
         }
-                
+
+        private void Client_OnReceive(object sender, SubscriptionEventArgs e)
+        {
+            MbapHeader header = MbapHeader.Decode(e.Message);
+            if(cache.IsCached(header.UnitId, header.TransactionId))
+            {
+                cache.Remove(header.UnitId, header.TransactionId);
+
+                //forward down the TCP SCADA channel
+                Task task = Channel.SendAsync(e.Message);
+                Task.WhenAll(task);
+            }
+            else
+            {
+                Trace.TraceWarning("Message received from Piraeus does not map to Unit ID and Transaction ID of SCADA client.");
+            }
+        }
+
+        private PiraeusClient client;
         private VRtuConfig rtuConfig;
         private RtuMap map;
-        private PiraeusMqttClient client;
+        //private PiraeusMqttClient client;
         private MbapCache cache;
         private IChannel piraeusChannel;
         private CancellationTokenSource source;
         public IChannel Channel { get; internal set; }
         private const string contentType = "application/octet-stream";
+        private HashSet<ushort> subscribed;
         private bool disposed;
 
         public event System.EventHandler<AdapterEventArgs> OnError;
         public event System.EventHandler<AdapterEventArgs> OnClose;
 
-        #region Piraeus Channel     
-
-        private void Client_OnChannelError(object sender, ChannelErrorEventArgs args)
-        {
-            Trace.TraceError("Piraeus channel '{0}' error '{1}'", args.ChannelId, args.Error.Message);
-
-            //close the channel chain
-            Task pchannelTask = piraeusChannel.CloseAsync();
-            Task.WhenAll(pchannelTask);
-
-            Task closeTask = Channel.CloseAsync();
-            Task.WhenAll(closeTask);
-        }
-
-        private void PiraeusChannel_OnClose(object sender, ChannelCloseEventArgs e)
-        {
-            Trace.TraceWarning("Piraeus channel '{0}' closing.", e.ChannelId);
-        }
-
-        #endregion
        
         #region SCADA Software Channel
         private void Channel_OnOpen(object sender, ChannelOpenEventArgs e)
         {
-            Task<ConnectAckCode> task = client.ConnectAsync(Guid.NewGuid().ToString(), "JWT", rtuConfig.SecurityToken, 
-                                                            Convert.ToInt32(rtuConfig.KeepAliveInterval));
-            Task.WaitAll(task);
-
-            ConnectAckCode code = task.Result;
-
-            if(code == ConnectAckCode.ConnectionAccepted)
+            try
             {
-                Trace.TraceInformation("Piraeus TCP MQTT channel '{0}' open.", piraeusChannel.Id);
-
-                //subscribe to all RTU resources
-                Dictionary<ushort, ResourceItem>.Enumerator en = map.Map.GetEnumerator();
-                while(en.MoveNext())
-                {
-                    string subscriptionUriString = en.Current.Value.RtuOutputResource;
-                    Task subTask = client.SubscribeAsync(subscriptionUriString, QualityOfServiceLevelType.AtMostOnce, SubscriptionResult);
-                    Task.WhenAll(subTask);
-                }
+                client = new PiraeusClient(rtuConfig);
+                client.OnReceive += Client_OnReceive;
+                Task connectTask = client.ConnectAsync();
+                Task.WhenAll(connectTask);
             }
-            else
+            catch(Exception ex)
             {
-                Trace.TraceError("Piraeus TCP MQTT channel '{0}' faulted on connect message with code '{1}'.", code);
-                //close the channel chain
-                Trace.TraceWarning("Closing TCP channel chain due to fault on MQTT connect.");
-                Task closeTask = Channel.CloseAsync();
-                Task.WhenAll(closeTask);
-            }          
-
+                OnError?.Invoke(this, new AdapterEventArgs(Channel.Id, ex));
+            }
         }
 
         private void Channel_OnReceive(object sender, ChannelReceivedEventArgs e)
         {
+            Console.WriteLine("VRTU Adapter received message");
             //read the transaction id and unit id from the MBAP header
             MbapHeader header = MbapHeader.Decode(e.Message);
+
+            if(!map.Map.ContainsKey(header.UnitId))
+            {
+                this.OnError?.Invoke(this, new AdapterEventArgs(Channel.Id, new InvalidOperationException("Unit ID is not mapped")));
+                return;
+            }
+
+            if (!subscribed.Contains(header.UnitId))
+            {
+                //subscribe to the output of the RTU
+                Task subTask = client.SubscribeAsync(map.Map[header.UnitId].RtuOutputResource);
+                Task.WhenAll(subTask);
+                
+                subscribed.Add(header.UnitId);
+                Console.WriteLine("V-RTU Subscribed to {0}", map.Map[header.UnitId].RtuOutputResource);
+            }
+
 
             if(!cache.IsCached(header.UnitId, header.TransactionId))
             {
                 cache.Set(header.UnitId, header.TransactionId);
             }
-
-            //forward to Piraeus
-            string resourceUriString = map.GetResources(header.UnitId).RtuInputResource;
-            Task task = client.PublishAsync(QualityOfServiceLevelType.AtMostOnce, resourceUriString, contentType, e.Message);
-            Task.WhenAll(task);
+            
+            Task pubTask = client.SendAsync(map.GetResources(header.UnitId).RtuInputResource, e.Message);
+            Task.WhenAll(pubTask);
+            Console.WriteLine("V-RTU published to {0}", map.GetResources(header.UnitId).RtuInputResource);
         }
 
         private void Channel_OnError(object sender, ChannelErrorEventArgs e)
@@ -142,48 +133,57 @@ namespace SkunkLab.VirtualRtu.Adapters
         private void Channel_OnClose(object sender, ChannelCloseEventArgs e)
         {
             Trace.TraceWarning("SCADA channel closing.");
+            OnClose?.Invoke(this, new AdapterEventArgs(Channel.Id));
         }
 
         #endregion
 
-        #region Subscription Action
-
-        private void SubscriptionResult(string uriString, string contentType, byte[] message)
-        {
-            MbapHeader header = MbapHeader.Decode(message);
-            if(cache.IsCached(header.UnitId, header.TransactionId))
-            {
-                try
-                {
-                    Trace.TraceInformation("ModBus message received from RTU and forwarded with UnitId '{0}' and TransactionId '{1}'.", header.UnitId, header.TransactionId);
-                    cache.Remove(header.UnitId, header.TransactionId);
-                    Task task = Channel.SendAsync(message);
-                    Task.WhenAll(task);
-                }
-                catch(Exception ex)
-                {
-                    Trace.TraceWarning("ModBus message received from RTU failed to be forward with UnitId '{0}' and TransactionId '{1}'.", header.UnitId, header.TransactionId);
-                    Trace.TraceError("ModBus message forwarding from RTU failed with '{0}'.", ex.Message);
-                }
-                
-            }
-            else
-            {
-                //un-mapped
-                Trace.TraceWarning("Received ModBus message received from RTU cannot map UnitId '{0}' and TransactionId '{1}'.", header.UnitId, header.TransactionId);
-            }
-        }
-
-
-
-        #endregion
         
+        #region Dispose
+
         public void Dispose()
         {
-            //Channel.Dispose();
-            
-            throw new NotImplementedException();
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            GC.SuppressFinalize(this);
         }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    try
+                    {
+                        Task t = client.DisconnectAsync();
+                        Task.WaitAll(t);
+                    }
+                    catch(AggregateException ae)
+                    {
+                        Trace.TraceError(ae.Flatten().InnerException.Message);
+                    }
+                    catch(Exception ex)
+                    {
+                        Trace.TraceError(ex.Message);
+                    }
+
+                    try
+                    {
+                        piraeusChannel.Dispose();
+                    }
+                    catch(Exception ex)
+                    {
+                        Trace.TraceError(ex.Message);
+                    }
+                }
+
+                disposed = true;
+            }
+        }
+
+        #endregion
 
 
     }

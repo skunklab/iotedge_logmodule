@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SkunkLab.Channels\SkunkLab.Channels\SkunkLab.Channels.csproj" />
+    <ProjectReference Include="..\SkunkLab.Clients\SkunkLab.Clients.csproj" />
+    <ProjectReference Include="..\SkunkLab.Protocols\SkunkLab.Protocols.csproj" />
+    <ProjectReference Include="..\SkunkLab.Security\SkunkLab.Security.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\core\src\SkunkLab\SkunkLab.Security\SkunkLab.Security\bin\Release\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

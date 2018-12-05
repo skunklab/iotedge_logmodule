@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Version>1.0.15</Version>
+    <RootNamespace>SkunkLab.Channels</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Description>SkunkLab Channels for .NET Core v2.1</Description>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/skunklab/SkunkLab.Core/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/skunklab/SkunkLab.Core</PackageProjectUrl>
+    <PackageIconUrl>https://avatars2.githubusercontent.com/u/25301165?s=40&amp;amp;u=f8ab917e074351e186df6a41b4d3d764f6b5af96&amp;amp;v=4</PackageIconUrl>
+    <RepositoryUrl>https://github.com/skunklab/SkunkLab.Core</RepositoryUrl>
+    <PackageTags>SkunkLab Channels</PackageTags>
+    <PackageReleaseNotes>SkunkLab Channels for .NET Core v.2.1</PackageReleaseNotes>
+    <AssemblyVersion>1.0.15.0</AssemblyVersion>
+    <AssemblyName>SkunkLab.Channels</AssemblyName>
+    <PackageId>SkunkLab.Channels.Core</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BouncyCastle.NetCore" Version="1.8.3" />
+    <PackageReference Include="Microsoft.AspNetCore.WebSockets" Version="2.1.1" />
+  </ItemGroup>
+
+</Project>

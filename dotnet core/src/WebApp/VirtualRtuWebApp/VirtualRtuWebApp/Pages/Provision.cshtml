@@ -1,0 +1,28 @@
+﻿@page
+@model VirtualRtuWebApp.Pages.ProvisionModel
+@{
+    ViewData["Title"] = "Provision";
+}
+
+<h2>Provision a New RTU</h2>
+<div class="col-md-3">
+    <table class="table-responsive">
+        <tr>
+            <td>Device ID</td>
+            <td> @Html.TextBox("deviceId", @Model.DeviceId)</td>
+        </tr>
+        <tr>
+            <td>Module ID</td>
+            <td> @Html.TextBox("moduleId", @Model.ModuleId)</td>
+        </tr>
+        <tr>
+            <td>Unit ID</td>
+            <td> @Html.TextBox("unitId", @Model.UnitId)</td>
+        </tr>
+        <tr>
+            <td>Virtual RTU ID</td>
+            <td> @Html.TextBox("unitId", @Model.VirtualRtuId)</td>
+        </tr>
+    </table>
+    
+</div>

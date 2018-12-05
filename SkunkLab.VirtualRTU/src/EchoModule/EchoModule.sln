@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EchoModule", "EchoModule\EchoModule.csproj", "{49065C81-B51B-47AD-B5CE-38DA8EED7DAA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49065C81-B51B-47AD-B5CE-38DA8EED7DAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49065C81-B51B-47AD-B5CE-38DA8EED7DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49065C81-B51B-47AD-B5CE-38DA8EED7DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49065C81-B51B-47AD-B5CE-38DA8EED7DAA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {802C2E1A-32D0-403B-A561-4AEA27F08F02}
+	EndGlobalSection
+EndGlobal

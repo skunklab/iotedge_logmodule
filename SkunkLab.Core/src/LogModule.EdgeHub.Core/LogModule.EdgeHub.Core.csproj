@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>LogModule.EdgeHub</RootNamespace>
+    <Version>0.9.2-prerelease</Version>
+    <PackageId>IoTEdge.LogModule.EdgeHub.Core</PackageId>
+    <FileVersion>0.0.0.2</FileVersion>
+    <AssemblyVersion>0.0.9.2</AssemblyVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Devices" Version="1.17.1" />
+    <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.18.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LogModule.Core\LogModule.Core.csproj" />
+  </ItemGroup>
+
+</Project>

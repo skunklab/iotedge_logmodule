@@ -1,6 +1,5 @@
 ﻿using Microsoft.Azure.Devices.Client;
 using Microsoft.Azure.Devices.Shared;
-using Newtonsoft.Json.Linq;
 using SkunkLab.Edge.Gateway.Mqtt;
 using System;
 using System.Diagnostics;
@@ -10,59 +9,81 @@ namespace SkunkLab.Edge.Gateway
 {
     public class EdgeTwin
     {
-        private string deviceConnectionString = "HostName=virtualrtu.azure-devices.net;DeviceId=rtu1;SharedAccessKey=k4N3czIvUNyqqcnhhASbWOUOMtJitUnQfL0qRrE/fj8=";
-        private DeviceClient client = null;
-
+        public event System.EventHandler<ModuleConfigurationEventArgs> OnConfiguration;
+        private ModuleClient client;
+        private Twin twin;
         public EdgeTwin()
-        {
-            deviceConnectionString = System.Environment.GetEnvironmentVariable("DEVICE_CONNECTION_STRING");
+        {            
+        }
 
-            if (!string.IsNullOrEmpty(deviceConnectionString))
+
+        public async Task CloseAsync()
+        {
+            if(client != null)
             {
-                client = DeviceClient.CreateFromConnectionString(deviceConnectionString, TransportType.Mqtt);
+                await client.CloseAsync();
             }
         }
 
-        public async Task<EdgeConfig> ConnectAsync()
-        {
-            if (client == null)
+        public async Task ConnectAsync(string moduleConnectionString)
+        {           
+            if (moduleConnectionString == null)
             {
-                return null;
+                throw new ArgumentNullException("moduleConnectionString");
             }
-
-            EdgeConfig config = null;
 
             try
             {
-                Twin twin = await client.GetTwinAsync();
+                client = ModuleClient.CreateFromConnectionString(moduleConnectionString, TransportType.Mqtt);
+                twin = await client.GetTwinAsync();
 
                 TwinCollection collection = twin.Properties.Desired;
-                if (collection.Contains("edgeConfig"))
-                {
-                    JObject obj = collection["edgeConfig"];
-                    config = obj.ToObject<EdgeConfig>();
-                }
+                EdgeConfig config = new EdgeConfig() { LUSS = collection["luss"], ServiceUrl = collection["serviceUrl"] };
+
+                OnConfiguration?.Invoke(this, new ModuleConfigurationEventArgs(config));
+                await client.SetDesiredPropertyUpdateCallbackAsync(OnDesiredPropertiesUpdate, null);
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Trace.TraceError("Twin connected failed with '{0}'.", ex.Message);
             }
+        }
 
-            return config;
+        public Task OnDesiredPropertiesUpdate(TwinCollection desiredProperties, object userContext)
+        {
+            //receiving an update from reconfiguration
+
+            //raise and event for possible reconfiguration
+            try
+            {
+                string luss = desiredProperties["luss"];
+                string url = desiredProperties["serviceUrl"];
+                EdgeConfig config = new EdgeConfig() { LUSS = luss, ServiceUrl = url };
+                OnConfiguration?.Invoke(this, new ModuleConfigurationEventArgs(config));
+            }
+            catch(Exception ex)
+            {
+                Trace.TraceWarning("Desired properties for module update error.");
+                Trace.TraceError(ex.Message);
+            }            
+
+            return Task.CompletedTask;
         }
 
 
-        public async Task ReportAsync(EdgeConfig config)
+        public async Task ReportAsync(bool complete)
         {
             try
             {
                 TwinCollection collection = new TwinCollection();
-                collection["edgeConfig"] = config;
+                collection["configurationComplete"] = complete;
                 await client.UpdateReportedPropertiesAsync(collection);
             }
             catch(Exception ex)
             {
-                Trace.TraceError("Twin update failed with '{0}'.", ex.Message);
+                Trace.TraceWarning("Module twin report properties update failed.");
+                Trace.TraceError("Module twin update failed with '{0}'.", ex.Message);
             }
         }
 

@@ -43,7 +43,7 @@ namespace SkunkLab.Protocols.Mqtt
         private Dictionary<string, QualityOfServiceLevelType> qosLevels;    //qos levels return from subscriptions
         private ConnectAckCode _code;
         private bool disposed;
-        private SecurityTokenType bootstrapTokenType;
+        private SkunkLab.Security.Tokens.SecurityTokenType bootstrapTokenType;
         private string bootstrapToken;
 
 

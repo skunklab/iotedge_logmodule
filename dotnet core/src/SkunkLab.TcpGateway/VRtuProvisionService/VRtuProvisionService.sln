@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VRtuProvisionService", "VRtuProvisionService.csproj", "{F9348E1B-2579-4FE9-B868-5C04DDF2C12A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Capl.Standard", "..\..\Capl.Standard\Capl.Standard.csproj", "{0CB829A0-2667-4984-A743-C52C1A2DBA5E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F9348E1B-2579-4FE9-B868-5C04DDF2C12A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9348E1B-2579-4FE9-B868-5C04DDF2C12A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9348E1B-2579-4FE9-B868-5C04DDF2C12A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9348E1B-2579-4FE9-B868-5C04DDF2C12A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CB829A0-2667-4984-A743-C52C1A2DBA5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CB829A0-2667-4984-A743-C52C1A2DBA5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CB829A0-2667-4984-A743-C52C1A2DBA5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CB829A0-2667-4984-A743-C52C1A2DBA5E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {464F0343-7541-4573-914C-963B94C2B28A}
+	EndGlobalSection
+EndGlobal

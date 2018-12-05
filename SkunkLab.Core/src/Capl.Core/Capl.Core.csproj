@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>Capl</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Claims Authorization Policy Language for .NET Core v2.1</Description>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/skunklab/SkunkLab.Core/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/skunklab/SkunkLab.Core</PackageProjectUrl>
+    <PackageIconUrl>https://avatars2.githubusercontent.com/u/25301165?s=40&amp;amp;u=f8ab917e074351e186df6a41b4d3d764f6b5af96&amp;amp;v=4</PackageIconUrl>
+    <RepositoryUrl>https://github.com/skunklab/SkunkLab.Core</RepositoryUrl>
+    <PackageReleaseNotes>CAPL - Claims Authorization Policy Language for .NET Core v.2.1</PackageReleaseNotes>
+    <Copyright>2018</Copyright>
+    <AssemblyName>Capl</AssemblyName>
+  </PropertyGroup>
+
+</Project>

@@ -11,19 +11,24 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using VirtualRtu.Common.Configuration;
 
 namespace SkunkLab.Edge.Gateway.Mqtt
 {
     public class MqttEdgeClient
     {
-        public MqttEdgeClient(EdgeConfig config, CancellationToken token)
+        
+        
+        public MqttEdgeClient(IssuedConfig config, string moduleConnectionString, CancellationToken token)
         {
             token.Register(CancelCallback);
             this.config = config;
+            this.moduleConnectionString = moduleConnectionString;
         }
 
+        private string moduleConnectionString;
         private ModuleClient moduleClient;
-        private EdgeConfig config;
+        private IssuedConfig config;
         private IChannel channel;
         private PiraeusMqttClient client;
         private CancellationTokenSource source;
@@ -32,9 +37,9 @@ namespace SkunkLab.Edge.Gateway.Mqtt
         {
             try
             {
-                moduleClient = ModuleClient.CreateFromConnectionString(config.ModuleConnectionString, TransportType.Mqtt);
+                moduleClient = ModuleClient.CreateFromConnectionString(moduleConnectionString, TransportType.Mqtt);
                 await moduleClient.SetInputMessageHandlerAsync("modbusOutput", ModBusOutput, moduleClient);
-                await moduleClient.OpenAsync();
+                await moduleClient.OpenAsync();                
             }
             catch(Exception ex)
             {
@@ -43,11 +48,12 @@ namespace SkunkLab.Edge.Gateway.Mqtt
             }
             
             try
-            {
+            {                
                 source = new CancellationTokenSource();
-                channel = new TcpClientChannel(config.Hostname, config.Port, config.PskIdentity, config.Psk, config.MaxBufferSize, source.Token);
-                client = new PiraeusMqttClient(new Protocols.Mqtt.MqttConfig(), channel);
-                ConnectAckCode code = await client.ConnectAsync(Guid.NewGuid().ToString(), "JWT", config.GetSecurityToken(), 90);
+                channel = ChannelFactory.Create(false, config.Hostname, config.Port, config.PskIdentity, Convert.FromBase64String(config.PSK), 1024, 1024000, source.Token);
+                //channel = new TcpClientChannel2(config.Hostname, config.Port, config.PskIdentity, Convert.FromBase64String(config.PSK), 1024, 1024000, source.Token);
+                client = new PiraeusMqttClient(new Protocols.Mqtt.MqttConfig(90.0), channel);
+                ConnectAckCode code = await client.ConnectAsync(Guid.NewGuid().ToString(), "JWT", config.SecurityToken, 90);
 
                 if(code != ConnectAckCode.ConnectionAccepted)
                 {
@@ -63,12 +69,7 @@ namespace SkunkLab.Edge.Gateway.Mqtt
 
             try
             {
-                //subscribe to all resources that the RTU can receive info
-                Dictionary<ushort, ResourceItem>.Enumerator en = config.Map.Map.GetEnumerator();
-                while(en.MoveNext())
-                {
-                    await client.SubscribeAsync(en.Current.Value.RtuInputResource, QualityOfServiceLevelType.AtMostOnce, SubscriptionMessageReceived);
-                }
+                await client.SubscribeAsync(config.Resources.RtuInputResource, QualityOfServiceLevelType.AtMostOnce, SubscriptionMessageReceived);
             }
             catch(Exception ex)
             {
@@ -91,8 +92,8 @@ namespace SkunkLab.Edge.Gateway.Mqtt
             {
                 MbapHeader header = MbapHeader.Decode(message);
                 Trace.WriteLine(String.Format("{0} - Message received with unit id '{1}' and resource '{2}'.", DateTime.Now.ToString("dd-MM-yyyyThh-mm-ss.ffff"), header.UnitId, resourceUriString));
-
-                if (!config.Map.Map.ContainsKey(header.UnitId))
+                
+                if (config.Resources.UnitId != (int)header.UnitId)
                 {
                     //invalid unit id -- do not process
                     Trace.TraceWarning("Unit Id '{0}' not found in map. Message cannot be forwarded to ModBus protocol adapter.", header.UnitId);
@@ -109,8 +110,7 @@ namespace SkunkLab.Edge.Gateway.Mqtt
             catch(Exception ex)
             {
                 Trace.TraceError("Faulted recevied message with error '{0}'.", ex.Message);
-            }           
-
+            } 
         }
 
 
@@ -119,16 +119,15 @@ namespace SkunkLab.Edge.Gateway.Mqtt
             //input from RTU
             byte[] payload = message.GetBytes();
             MbapHeader header = MbapHeader.Decode(payload);
-            if(config.Map.Map.ContainsKey(header.UnitId))
+            if(config.Resources.UnitId == (int)header.UnitId)
             {
-                ResourceItem resources = config.Map.GetResources(header.UnitId);
-                string resourceUriString = resources.RtuInputResource;
                 //forward the message
-                await client.PublishAsync(QualityOfServiceLevelType.AtMostOnce, resourceUriString, "application/octet-stream", payload);
+                await client.PublishAsync(QualityOfServiceLevelType.AtMostOnce, config.Resources.RtuOutputResource, "application/octet-stream", payload);
                 return MessageResponse.Completed;
             }
             else
             {
+                Trace.TraceWarning("ModBus output has Unit ID mismatch.  Received '{0}' and expected '{1}'.", header.UnitId, config.Resources.UnitId);
                 return MessageResponse.Abandoned;
             }
         }
