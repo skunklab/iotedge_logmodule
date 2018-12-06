@@ -1,6 +1,11 @@
 # IoT Edge Log Module
 ## REST API
 
+### Links
+[ReadMe](../readme.md)
+[DotNet Client Samples](./foo.md)
+[Direct Methods API](./dmi.md)
+
 # Introduction
 
 The following are the descriptions of the REST API for the log module, which can be used to build your clients to operations.  The IoTEdge.LogModule.Core nuget package contains a client that can be used to call this API if that is an option.
