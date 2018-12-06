@@ -44,10 +44,8 @@ The Log module provides 3 APIs which 1 or more can be configure for use.
 The IoT Edge Log Module is simple to setup and use.  Follow this link for the Setup and Samples guides where we you how easy it can be to leverage persistent storage on your edge device and management it.
 
 # Configuration
-
 + Task 1 – Define docker volume(s) on Edge Device
-
- - Step 1: Logon edge device
+    - Step 1: Logon edge device
 
  + Step 2: Create a docker volume using the command _docker volume create \&lt;name\&gt;, e.g.,
              docker volume create data_
