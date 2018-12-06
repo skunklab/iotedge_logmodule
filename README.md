@@ -50,18 +50,18 @@ The IoT Edge Log Module is simple to setup and use.  Follow this link for the Se
              docker volume create data_
     - Step 3: Give read/write permission to docker volume
 
-    Execute the following command _docker volume inspect \&lt;name\&gt;_
-    Get the physical path of the docker volume
-    Execute the following command s
+        Execute the following command _docker volume inspect &lt;name&gt;_
+        Get the physical path of the docker volume
+        Execute the following command 
 
-_sudo chmod -R ugo+rw \&lt;physical path\&gt;_
+        sudo chmod -R ugo+rw &lt;physical path&gt;
 
-* Task 2 – Create Azure Storage Account
++ Task 2 – Create Azure Storage Account
 
- + Step 1: Create an Azure Storage Account if the portal
+    - Step 1: Create an Azure Storage Account if the portal
 
-- Copy the name of the storage account, .e.g.. &quot;myteststore&quot;
-- Copy the access key
+        Copy the name of the storage account, .e.g.. &quot;myteststore&quot;
+        Copy the access key
 
 * Task 3 – Create IoT Hub and Edge Device
 
