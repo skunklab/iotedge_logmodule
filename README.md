@@ -94,8 +94,9 @@ The IoT Edge Log Module is simple to setup and use.  Follow this link for the Se
         {
           &quot;HostPort&quot;: &quot;8877&quot;
         }
-   ]   }  } }   
-    - Step 5: Add the following Environment Variables
+   ]   }  } }
+  
+   - Step 5: Add the following Environment Variables
  
 | **Name** | **Value** |
 | --- | --- |
