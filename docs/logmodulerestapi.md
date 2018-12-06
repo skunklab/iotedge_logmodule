@@ -3,8 +3,8 @@
 
 ### Links
    - [ReadMe](../README.md)
-   - [DotNet Client Samples](./foo.md)
-   - [Direct Methods API](./dmi.md)
+   - [DotNet Client Samples](dotnetrestclientsamples.md)
+   - [Direct Methods API](dmi.md)
 
 # Introduction
 
