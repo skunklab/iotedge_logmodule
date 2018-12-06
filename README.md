@@ -80,7 +80,7 @@ The IoT Edge Log Module is simple to setup and use.  Follow this link for the Se
         - Name: iotedge-logmodule
         - Image URI: skunklab/iotedge-logmodule
         - Container Create Options paste the following, which assumes your docker volume created is name &quot;data&quot;, otherwise replace the highlight text with your docker volume name.
-```
+        
 {
   &quot;ExposedPorts&quot;: {
     &quot;8877/tcp&quot;: {}
@@ -105,9 +105,9 @@ The IoT Edge Log Module is simple to setup and use.  Follow this link for the Se
 | LM\_BlobStorageAccountKey | &lt;blob storage access key&gt; |
 | LM\_Features | WebHost;DirectMethodsHost |
 
-- Click Save
-- Click Next 2 times
-- Click Submit
+        - Click Save
+        - Click Next 2 times
+        - Click Submit
 
 
 
