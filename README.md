@@ -93,7 +93,7 @@ Task 4 – Add the Log Module to the Edge Device
   },
   &quot;HostConfig&quot;: {
     &quot;Binds&quot;: [
-      &quot;<mark>data</mark>:/app/<mark>data</mark>&quot;
+      &quot;<span style="background-color: #FFFF00">data</span>:/app/<span style="background-color: #FFFF00">data</span>&quot;
     ],
     &quot;PortBindings&quot;: {
       &quot;8877/tcp&quot;: [
@@ -107,8 +107,8 @@ Task 4 – Add the Log Module to the Edge Device
 | **Name** | **Value** |
 | --- | --- |
 | LM\_Port | 8877 |
-| LM\_BlobStorageAccountName | \&lt;blob storage account name\&gt; |
-| LM\_BlobStorageAccountKey | \&lt;blob storage access key\&gt; |
+| LM\_BlobStorageAccountName | &lt;blob storage account name&gt; |
+| LM\_BlobStorageAccountKey | &lt;blob storage access key&gt; |
 | LM\_Features | WebHost;DirectMethodsHost |
 
 - Click Save
