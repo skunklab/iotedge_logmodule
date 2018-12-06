@@ -94,9 +94,8 @@ The IoT Edge Log Module is simple to setup and use.  Follow this link for the Se
         {
           &quot;HostPort&quot;: &quot;8877&quot;
         }
-   ]   }  } }
-   
- > Step 5: Add the following Environment Variables
+   ]   }  } }   
+    - Step 5: Add the following Environment Variables
  
 | **Name** | **Value** |
 | --- | --- |
@@ -104,11 +103,9 @@ The IoT Edge Log Module is simple to setup and use.  Follow this link for the Se
 | LM\_BlobStorageAccountName | &lt;blob storage account name&gt; |
 | LM\_BlobStorageAccountKey | &lt;blob storage access key&gt; |
 | LM\_Features | WebHost;DirectMethodsHost |
-
-
-   > Click Save
-   > Click Next 2 times
-   > Click Submit
+       - Click Save
+       - Click Next 2 times
+       - Click Submit
 
 
 
