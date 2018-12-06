@@ -46,15 +46,13 @@ The IoT Edge Log Module is simple to setup and use.  Follow this link for the Se
 # Configuration
 + Task 1 – Define docker volume(s) on Edge Device
     - Step 1: Logon edge device
-
- + Step 2: Create a docker volume using the command _docker volume create \&lt;name\&gt;, e.g.,
+    - Step 2: Create a docker volume using the command _docker volume create \&lt;name\&gt;, e.g.,
              docker volume create data_
+    - Step 3: Give read/write permission to docker volume
 
-_       _ + Step 3: Give read/write permission to docker volume
-
-- Execute the following command _docker volume inspect \&lt;name\&gt;_
-- Get the physical path of the docker volume
-- Execute the following command s
+    Execute the following command _docker volume inspect \&lt;name\&gt;_
+    Get the physical path of the docker volume
+    Execute the following command s
 
 _sudo chmod -R ugo+rw \&lt;physical path\&gt;_
 
