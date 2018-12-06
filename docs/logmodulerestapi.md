@@ -2,7 +2,7 @@
 ## REST API
 
 ### Links
-   - [ReadMe](../readme.md)
+   - [ReadMe](../README.md)
    - [DotNet Client Samples](./foo.md)
    - [Direct Methods API](./dmi.md)
 
