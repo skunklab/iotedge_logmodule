@@ -45,9 +45,9 @@ The IoT Edge Log Module is simple to setup and use.  Follow this link for the Se
 
 # Configuration
 
-* Task 1 – Define docker volume(s) on Edge Device
+> Task 1 – Define docker volume(s) on Edge Device
 
- + Step 1: Logon edge device
+ >> Step 1: Logon edge device
 
  + Step 2: Create a docker volume using the command _docker volume create \&lt;name\&gt;, e.g.,
              docker volume create data_
