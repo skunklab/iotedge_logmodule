@@ -1,5 +1,5 @@
-# IoT Edge Log Modulee
-## Direct Methods Interface
+# IoT Edge Log Module
+## Direct Methods API
 
 # Introduction
 The Direct Methods interface (DMI) is intended for remote management of the Log Module.  The DMI allows a user to perform file upload, download, compression, removal, and truncation of local files on the IoT Edge device.  
