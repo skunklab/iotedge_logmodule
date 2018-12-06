@@ -81,7 +81,7 @@ The IoT Edge Log Module is simple to setup and use.  Follow this link for the Se
         - Image URI: skunklab/iotedge-logmodule
         - Container Create Options paste the following, which assumes your docker volume created is name &quot;data&quot;, otherwise replace the highlight text with your docker volume name.
         
- {
+         {
   &quot;ExposedPorts&quot;: {
     &quot;8877/tcp&quot;: {}
   },
