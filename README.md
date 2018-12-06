@@ -50,11 +50,11 @@ The IoT Edge Log Module is simple to setup and use.  Follow this link for the Se
              docker volume create data_
     - Step 3: Give read/write permission to docker volume
 
-        Execute the following command _docker volume inspect &lt;name&gt;_
-        Get the physical path of the docker volume
-        Execute the following command 
+        - Execute the following command _docker volume inspect &lt;name&gt;
+        - Get the physical path of the docker volume.
+        - Execute the following command 
 
-        sudo chmod -R ugo+rw &lt;physical path&gt;
+        - **sudo chmod -R ugo+rw &lt;physical path&gt;**
 
 + Task 2 – Create Azure Storage Account
 
