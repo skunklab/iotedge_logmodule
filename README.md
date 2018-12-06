@@ -44,76 +44,68 @@ The Log module provides 3 APIs which 1 or more can be configure for use.
 The IoT Edge Log Module is simple to setup and use.  Follow this link for the Setup and Samples guides where we you how easy it can be to leverage persistent storage on your edge device and management it.
 
 # Configuration
-
-Task 1 – Define docker volume(s) on Edge Device
-
- Step 1: Logon edge device
-
- Step 2: Create a docker volume using the command _docker volume create \&lt;name\&gt;, e.g.,
++ Task 1 – Define docker volume(s) on Edge Device
+    - Step 1: Logon edge device
+    - Step 2: Create a docker volume using the command _docker volume create \&lt;name\&gt;, e.g.,
              docker volume create data_
+    - Step 3: Give read/write permission to docker volume
 
-_       _ Step 3: Give read/write permission to docker volume
+        - Execute the following command **docker volume inspect &lt;name&gt;**
+        - Get the physical path of the docker volume.
+        - Execute the following command **sudo chmod -R ugo+rw &lt;physical path&gt;**
 
-- Execute the following command _docker volume inspect \&lt;name\&gt;_
-- Get the physical path of the docker volume
-- Execute the following command s
++ Task 2 – Create Azure Storage Account
 
-_sudo chmod -R ugo+rw \&lt;physical path\&gt;_
+    - Step 1: Create an Azure Storage Account if the portal
 
-Task 2 – Create Azure Storage Account
+        - Copy the name of the storage account, .e.g.. &quot;myteststore&quot;
+        - Copy the access key
 
- Step 1: Create an Azure Storage Account if the portal
++ Task 3 – Create IoT Hub and Edge Device
 
-- Copy the name of the storage account, .e.g.. &quot;myteststore&quot;
-- Copy the access key
+    - Step 1: Go to Azure Portal and create an IoT Hub
 
-Task 3 – Create IoT Hub and Edge Device
+    - Step 2: Create an edge device in within the IoT Hub, e.g., &quot;edgedevice1&quot;
 
- Step 1: Go to Azure Portal and create an IoT Hub
++ Task 4 – Add the Log Module to the Edge Device
 
- Step 2: Create an edge device in within the IoT Hub, e.g., &quot;edgedevice1&quot;
+    - Step 1: Click on edge device in portal
 
-Task 4 – Add the Log Module to the Edge Device
+    - Step 2: Click &quot;Set Modules&quot;
 
- Step 1: Click on edge device in portal
+    - Step 3: Under &quot;Deployment Modules&quot; click &quot;+Add&quot; and select &quot;IoT Edge Module&quot;
 
- Step 2: Click &quot;Set Modules&quot;
+    - Step 4: Fill in the following information in the blade
 
- Step 3: Under &quot;Deployment Modules&quot; click &quot;+Add&quot; and select &quot;IoT Edge Module&quot;
-
- Step 4: Fill in the following information in the blade
-
-- Name: iotedge-logmodule
-- Image URI: skunklab/iotedge-logmodule
-- Container Create Options paste the following, which assumes your docker volume created is name &quot;data&quot;, otherwise replace the highlight text with your docker volume name.
-
-{
+        - Name: iotedge-logmodule
+        - Image URI: skunklab/iotedge-logmodule
+        - Container Create Options paste the following, which assumes your docker volume created is name &quot;data&quot;, otherwise replace the highlight text with your docker volume name.
+        
+         {
   &quot;ExposedPorts&quot;: {
     &quot;8877/tcp&quot;: {}
   },
   &quot;HostConfig&quot;: {
     &quot;Binds&quot;: [
-      &quot;<mark>data</mark>:/app/<mark>data</mark>&quot;
+      &quot;**data**:/app/**data**&quot;
     ],
     &quot;PortBindings&quot;: {
       &quot;8877/tcp&quot;: [
         {
           &quot;HostPort&quot;: &quot;8877&quot;
         }
-   ]   }  } }
-
-- Add the following Environment Variables
-
+   ]   }  } }  
+   - Step 5: Add the following Environment Variables
+   
 | **Name** | **Value** |
 | --- | --- |
 | LM\_Port | 8877 |
-| LM\_BlobStorageAccountName | \&lt;blob storage account name\&gt; |
-| LM\_BlobStorageAccountKey | \&lt;blob storage access key\&gt; |
+| LM\_BlobStorageAccountName | &lt;blob storage account name&gt; |
+| LM\_BlobStorageAccountKey | &lt;blob storage access key&gt; |
 | LM\_Features | WebHost;DirectMethodsHost |
-
-- Click Save
-- Click Next 2 times
-- Click Submit
+        - Click Save
+        - Click Next 2 times
+        - Click Submit
 
 
 
