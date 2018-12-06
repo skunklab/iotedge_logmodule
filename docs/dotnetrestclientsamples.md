@@ -3,7 +3,7 @@
 ## REST API Client Samples
 
 ### Links
-   - [ReadMe](../readme.md)
+   - [ReadMe](../README.md)
    - [Direct Methods API](dmi.md)
    - [REST API](logmodulerestapi.md)
 
