@@ -1,5 +1,5 @@
-# IoT Edge Log Module - REST API
-
+# IoT Edge Log Module
+## REST API
 
 # Introduction
 
