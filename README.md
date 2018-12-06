@@ -50,39 +50,37 @@ The IoT Edge Log Module is simple to setup and use.  Follow this link for the Se
              docker volume create data_
     - Step 3: Give read/write permission to docker volume
 
-        - Execute the following command _docker volume inspect &lt;name&gt;
+        - Execute the following command **docker volume inspect &lt;name&gt;**
         - Get the physical path of the docker volume.
-        - Execute the following command 
-
-        - **sudo chmod -R ugo+rw &lt;physical path&gt;**
+        - Execute the following command **sudo chmod -R ugo+rw &lt;physical path&gt;**
 
 + Task 2 – Create Azure Storage Account
 
     - Step 1: Create an Azure Storage Account if the portal
 
-        Copy the name of the storage account, .e.g.. &quot;myteststore&quot;
-        Copy the access key
+        - Copy the name of the storage account, .e.g.. &quot;myteststore&quot;
+        - Copy the access key
 
-* Task 3 – Create IoT Hub and Edge Device
++ Task 3 – Create IoT Hub and Edge Device
 
- + Step 1: Go to Azure Portal and create an IoT Hub
+    - Step 1: Go to Azure Portal and create an IoT Hub
 
- + Step 2: Create an edge device in within the IoT Hub, e.g., &quot;edgedevice1&quot;
+    - Step 2: Create an edge device in within the IoT Hub, e.g., &quot;edgedevice1&quot;
 
-* Task 4 – Add the Log Module to the Edge Device
++ Task 4 – Add the Log Module to the Edge Device
 
- + Step 1: Click on edge device in portal
+    - Step 1: Click on edge device in portal
 
- + Step 2: Click &quot;Set Modules&quot;
+    - Step 2: Click &quot;Set Modules&quot;
 
- + Step 3: Under &quot;Deployment Modules&quot; click &quot;+Add&quot; and select &quot;IoT Edge Module&quot;
+    - Step 3: Under &quot;Deployment Modules&quot; click &quot;+Add&quot; and select &quot;IoT Edge Module&quot;
 
- + Step 4: Fill in the following information in the blade
+    - Step 4: Fill in the following information in the blade
 
-- Name: iotedge-logmodule
-- Image URI: skunklab/iotedge-logmodule
-- Container Create Options paste the following, which assumes your docker volume created is name &quot;data&quot;, otherwise replace the highlight text with your docker volume name.
-
+        - Name: iotedge-logmodule
+        - Image URI: skunklab/iotedge-logmodule
+        - Container Create Options paste the following, which assumes your docker volume created is name &quot;data&quot;, otherwise replace the highlight text with your docker volume name.
+```
 {
   &quot;ExposedPorts&quot;: {
     &quot;8877/tcp&quot;: {}
@@ -98,7 +96,7 @@ The IoT Edge Log Module is simple to setup and use.  Follow this link for the Se
         }
    ]   }  } }
 
-- Add the following Environment Variables
+        - Add the following Environment Variables
 
 | **Name** | **Value** |
 | --- | --- |
