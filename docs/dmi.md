@@ -2,7 +2,7 @@
 ## Direct Methods API
 
 ### Links
-   - [ReadMe](../readme.md)
+   - [ReadMe](../README.md)
    - [DotNet Client Samples](dotnetrestclientsamples.md)
    - [REST API](logmodulerestapi.md)
 
