@@ -93,7 +93,7 @@ Task 4 – Add the Log Module to the Edge Device
   },
   &quot;HostConfig&quot;: {
     &quot;Binds&quot;: [
-      &quot;*data*:/app/*data*&quot;
+      &quot;**data**:/app/**data**&quot;
     ],
     &quot;PortBindings&quot;: {
       &quot;8877/tcp&quot;: [
