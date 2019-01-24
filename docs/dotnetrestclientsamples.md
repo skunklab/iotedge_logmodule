@@ -1,6 +1,11 @@
 # IoT Edge Log Module
 
-REST API Client Samples
+## REST API Client Samples
+
+### Links
+   - [ReadMe](../README.md)
+   - [Direct Methods API](dmi.md)
+   - [REST API](logmodulerestapi.md)
 
 # Introduction
 

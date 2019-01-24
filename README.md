@@ -1,5 +1,11 @@
 # IoT Edge Log Module
 
+
+### Links
+   - [REST API](./docs/logmodulerestapi.md)
+   - [DotNet Client Samples](./docs/dotnetrestclientsamples.md)
+   - [Direct Methods API](./docs/dmi.md)
+
 # Introduction
 
 The core scenario is driven by the need to store information locally on an edge device and administer that information either locally or remotely.  There are numerous scenarios in play including offline, storing data locally for retraining of ML models, and acquisition of configuration information unavailable for certain scenarios.  These drive a fundamental scenario where persistent data is required and needs to be managed on edge devices.
