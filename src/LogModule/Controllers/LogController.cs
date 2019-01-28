@@ -29,7 +29,7 @@ namespace LogModule.Controllers
             }
             catch (Exception ex)
             {
-                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError) { ReasonPhrase = ex.Message };
+                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError); // { ReasonPhrase = ex.Message };
             }
 
         }
@@ -44,7 +44,7 @@ namespace LogModule.Controllers
             }
             catch (Exception ex)
             {
-                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError) { ReasonPhrase = ex.Message };
+                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError); //{ ReasonPhrase = ex.Message };
             }
         }
 
@@ -58,7 +58,8 @@ namespace LogModule.Controllers
             }
             catch (Exception ex)
             {
-                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError) { ReasonPhrase = ex.Message };
+                Console.WriteLine(ex.Message);
+                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError); //{ ReasonPhrase = ex.Message };
             }
         }
 
@@ -72,7 +73,8 @@ namespace LogModule.Controllers
             }
             catch (Exception ex)
             {
-                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError) { ReasonPhrase = ex.Message };
+                Console.WriteLine(ex.Message);
+                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError); //{ ReasonPhrase = ex.Message };
             }
 
         }
@@ -87,7 +89,8 @@ namespace LogModule.Controllers
             }
             catch (Exception ex)
             {
-                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError) { ReasonPhrase = ex.Message };
+                Console.WriteLine(ex.Message);
+                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError); //{ ReasonPhrase = ex.Message };
             }
         }
 
@@ -101,7 +104,8 @@ namespace LogModule.Controllers
             }
             catch (Exception ex)
             {
-                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError) { ReasonPhrase = ex.Message };
+                Console.WriteLine(ex.Message);
+                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError);  //{ ReasonPhrase = ex.Message };
             }
 
         }
@@ -116,7 +120,8 @@ namespace LogModule.Controllers
             }
             catch (Exception ex)
             {
-                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError) { ReasonPhrase = ex.Message };
+                Console.WriteLine(ex.Message);
+                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError); //{ ReasonPhrase = ex.Message };
             }
 
         }
@@ -131,7 +136,8 @@ namespace LogModule.Controllers
             }
             catch (Exception ex)
             {
-                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError) { ReasonPhrase = ex.Message };
+                Console.WriteLine(ex.Message);
+                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError); //{ ReasonPhrase = ex.Message };
             }
         }
 
@@ -145,7 +151,8 @@ namespace LogModule.Controllers
             }
             catch (Exception ex)
             {
-                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError) { ReasonPhrase = ex.Message };
+                Console.WriteLine(ex.Message);
+                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError); //{ ReasonPhrase = ex.Message };
             }
 
         }
@@ -160,7 +167,8 @@ namespace LogModule.Controllers
             }
             catch(Exception ex)
             {
-                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError) { ReasonPhrase = ex.Message };
+                Console.WriteLine(ex.Message);
+                return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError); //{ ReasonPhrase = ex.Message };
             }
         }
     }

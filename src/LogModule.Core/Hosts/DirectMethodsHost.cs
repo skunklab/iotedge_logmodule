@@ -243,12 +243,12 @@ namespace LogModule.Hosts
 
         private void Remote_OnDownloadCompleted(object sender, BlobCompleteEventArgs e)
         {
-            if (uploadTokenSources.ContainsKey(e.Filename))
+            if (downloadTokenSources.ContainsKey(e.Filename))
             {
-                uploadTokenSources.Remove(e.Filename);
+                downloadTokenSources.Remove(e.Filename);
             }
 
-            OnDownloadCompleted(this, e);
+            OnDownloadCompleted?.Invoke(this, e);
         }
 
         private void Remote_OnDownloadBytesTransferred(object sender, BytesTransferredEventArgs e)

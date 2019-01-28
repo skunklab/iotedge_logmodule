@@ -57,8 +57,8 @@ namespace LogModule
             {
                 if (dockerConfig.FeatureFlags.HasFlag(LogModuleFeatureFlags.EdgeHubHost))
                 {
-                    edgeHubClient = await ModuleClient.CreateFromEnvironmentAsync(TransportType.Mqtt).ConfigureAwait(false);
-                    await edgeHubClient.OpenAsync().ConfigureAwait(false);
+                    edgeHubClient = await ModuleClient.CreateFromEnvironmentAsync(TransportType.Mqtt);
+                    await edgeHubClient.OpenAsync();
                     Console.WriteLine("Edge Hub client created");
 
                     local = ContainerLocal.Create(dockerConfig.BlobStorageAccountName, dockerConfig.BlobStorageAccountKey);
@@ -73,7 +73,8 @@ namespace LogModule
 
                 if (dockerConfig.FeatureFlags.HasFlag(LogModuleFeatureFlags.DirectMethodsHost))
                 {
-                    directMethodsClient = await ModuleClient.CreateFromEnvironmentAsync(TransportType.Mqtt);
+                    directMethodsClient = await ModuleClient.CreateFromEnvironmentAsync(TransportType.Mqtt);                    
+                   
                     await directMethodsClient.OpenAsync();
                     Console.WriteLine("Direct Methods client created");
 

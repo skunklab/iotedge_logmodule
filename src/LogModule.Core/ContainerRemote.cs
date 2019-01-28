@@ -77,8 +77,9 @@ namespace LogModule
                 }
             }
             catch (Exception ex)
-            {
-                operations.LogToDocker("DownloadFile", ex);
+            {                
+                Console.WriteLine(ex.StackTrace);
+                operations.LogToDocker("DownloadFile", ex);                
                 throw ex;
             }
         }
