@@ -71,11 +71,6 @@ namespace LogModule.Hosts
                 {
                     if (string.IsNullOrEmpty(model.SasUri))
                     {
-                        uploadTokenSources.Add(model.SasUri, new CancellationTokenSource());
-                        await remote.UploadFile(model.Path, model.Filename, model.BlobPath, model.BlobFilename, model.ContentType, model.Append);
-                    }
-                    else
-                    {
                         string key = FixPath(model.BlobPath) + model.BlobFilename;
 
                         if (uploadTokenSources.ContainsKey(key))
@@ -83,7 +78,16 @@ namespace LogModule.Hosts
                             uploadTokenSources.Remove(key);
                         }
 
-                        uploadTokenSources.Add(key, new CancellationTokenSource());
+                        await remote.UploadFile(model.Path, model.Filename, model.BlobPath, model.BlobFilename, model.ContentType, model.Append);
+                    }
+                    else
+                    {
+                        if (uploadTokenSources.ContainsKey(model.SasUri))
+                        {
+                            uploadTokenSources.Remove(model.SasUri);
+                        }
+
+                        uploadTokenSources.Add(model.SasUri, new CancellationTokenSource());
                         await remote.UploadFile(model.Path, model.Filename, model.SasUri, model.ContentType, model.Append);
                     }
                 }

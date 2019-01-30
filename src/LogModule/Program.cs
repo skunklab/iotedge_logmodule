@@ -73,7 +73,7 @@ namespace LogModule
 
                 if (dockerConfig.FeatureFlags.HasFlag(LogModuleFeatureFlags.DirectMethodsHost))
                 {
-                    directMethodsClient = await ModuleClient.CreateFromEnvironmentAsync(TransportType.Mqtt);                    
+                    directMethodsClient = await ModuleClient.CreateFromEnvironmentAsync(TransportType.Mqtt); 
                    
                     await directMethodsClient.OpenAsync();
                     Console.WriteLine("Direct Methods client created");
