@@ -146,12 +146,20 @@ namespace LogModule.Clients
             }
         }
 
-        public async Task UploadFile(string path, string filename, string blobPath, string blobFilename, string contentType, bool append = false, CancellationToken token = default(CancellationToken))
+        public async Task UploadFile(string path, string filename, string blobPath, string blobFilename, string contentType, bool deleteOnUpload = false, TimeSpan? ttl = null, bool append = false, CancellationToken token = default(CancellationToken))
         {
             try
             {
                 HttpClient client = new HttpClient();
-                string requestUri = String.Format("http://{0}:{1}/api/Log/UploadFile?path={2}&filename={3}&blobPath={4}&blobFilename={5}&contentType={6}&append={7}", ipAddress, port, path, filename, blobPath, blobFilename, contentType, append);
+                string requestUri = null;
+                if (ttl.HasValue)
+                {
+                    requestUri = String.Format("http://{0}:{1}/api/Log/UploadFile?path={2}&filename={3}&blobPath={4}&blobFilename={5}&contentType={6}&append={7}&deleteonupload{8}&ttl{9}", ipAddress, port, path, filename, blobPath, blobFilename, contentType, append, deleteOnUpload, ttl.Value.ToString());
+                }
+                else
+                {
+                    requestUri = String.Format("http://{0}:{1}/api/Log/UploadFile?path={2}&filename={3}&blobPath={4}&blobFilename={5}&contentType={6}&append={7}&deleteonupload{8}", ipAddress, port, path, filename, blobPath, blobFilename, contentType, append, deleteOnUpload);
+                }
                
                 HttpResponseMessage response = await client.PostAsync(requestUri,null);
                 if (response.StatusCode != System.Net.HttpStatusCode.OK)
@@ -166,7 +174,7 @@ namespace LogModule.Clients
             }
         }
 
-        public async Task UploadFile(string path, string filename, string sasUri, string contentType, bool append = false, CancellationToken token = default(CancellationToken))
+        public async Task UploadFile(string path, string filename, string sasUri, string contentType, bool deleteOnUpload = false, TimeSpan? ttl = null, bool append = false, CancellationToken token = default(CancellationToken))
         {
             try
             {

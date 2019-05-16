@@ -11,7 +11,7 @@ namespace LogModule.Controllers
     public class LogController : ControllerBase
     {
         public LogController()
-        {
+        {            
             string accountName = System.Environment.GetEnvironmentVariable("LM_BlobStorageAccountName");
             string accountKey = System.Environment.GetEnvironmentVariable("LM_BlobStorageAccountKey");
             local = ContainerLocal.Create(accountName, accountKey);
@@ -111,11 +111,11 @@ namespace LogModule.Controllers
         }
 
         [HttpPost("UploadFile")]
-        public async Task<HttpResponseMessage> UploadFile(string path, string filename, string blobPath, string blobFilename, string contentType, bool append = false)
+        public async Task<HttpResponseMessage> UploadFile(string path, string filename, string blobPath, string blobFilename, string contentType, bool append = false, bool deleteOnUpload = false, TimeSpan? ttl = null)
         {
             try
             {
-                await local.UploadFile(path, filename, blobPath, blobFilename, contentType, append);
+                await local.UploadFile(path, filename, blobPath, blobFilename, contentType, deleteOnUpload, ttl, append);
                 return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
             }
             catch (Exception ex)
@@ -127,11 +127,11 @@ namespace LogModule.Controllers
         }
 
         [HttpPost("UploadFile2")]
-        public async Task<HttpResponseMessage> UploadFile(string path, string filename, string sasUri, string contentType, bool append = false)
+        public async Task<HttpResponseMessage> UploadFile(string path, string filename, string sasUri, string contentType, bool append = false, bool deleteOnUpload = false, TimeSpan? ttl = null)
         {
             try
             {
-                await local.UploadFile(path, filename, sasUri, contentType, append);
+                await local.UploadFile(path, filename, sasUri, contentType, deleteOnUpload, ttl,  append);
                 return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
             }
             catch (Exception ex)

@@ -23,6 +23,8 @@ Uploads a file from an IoT Edge device to Azure Blob storage.
 | blobPath      | Container name to upload file, syntax /container/subfolder/. Required when “sasUri” is omitted.                    |
 | blobFilename  | Name of file after uploaded to blob storage. Required when “sasUri” is omitted.                                    |
 | sasUri        | Shared Access Token (SAS) URI that is writable to upload file. Omitted when “blobPath” and “blobFilename” is used. |
+| deleteOnUpload| If TRUE the local file will be deleted after upload is completed; otherwise the loal file will remain.               |
+| ttl| A Time-To-Live (TimeSpan) for a local file to be upload. If the TTL is exceeded, the local file will be deleted. If an exception occurs the processor will continue attempts to upload the file until the TTL expires, i.e. one every 60 seconds.              |
 | append        | Appends to an existing blob when TRUE using \\r\\n. Otherwise creates a new file. Default is FALSE.                |
 | cancel        | Cancels an in-progress upload to blob storage when TRUE. Otherwise will attempt file upload. Default is FALSE.     |
 
@@ -39,6 +41,8 @@ Upload a file local to the edge device in the docker volume ./data and filename 
 "blobPath": "/testcontainer",
 "blobFilename": "mytestfile.txt",
 "sasUri": null,
+ "deleteOnUpload": true,
+  "ttl":"01:00:00",
 "append": false,
 "cancel": false
 }
@@ -138,3 +142,4 @@ Truncates a file "test.txt" in the docker volume "./data" to a size of 100K byte
   "maxBytes": 100000
 }
 ```
+

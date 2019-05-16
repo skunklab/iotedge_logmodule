@@ -11,23 +11,28 @@ namespace LogModule.Models
         {
         }
 
-        public UploadFileModel(string path, string filename, string blobPath, string blobFilename, string contentType, bool append = false, bool cancel = false)
+
+        public UploadFileModel(string path, string filename, string blobPath, string blobFilename, string contentType, bool deleteOnUpload = false, TimeSpan? ttl = null, bool append = false, bool cancel = false)
         {
             Path = path;
             Filename = filename;
             BlobPath = blobPath;
             BlobFilename = blobFilename;
             ContentType = contentType;
+            DeleteOnUpload = deleteOnUpload;
+            TTL = ttl;
             Append = append;
             Cancel = cancel;
         }
 
-        public UploadFileModel(string sourcePath, string sourceFilename, string sasUri, string contentType, bool append = false, bool cancel = false)
+        public UploadFileModel(string sourcePath, string sourceFilename, string sasUri, string contentType, bool deleteOnUpload = false, TimeSpan? ttl = null, bool append = false, bool cancel = false)
         {
             Path = sourcePath;
             Filename = sourceFilename;
             SasUri = SasUri;
             ContentType = contentType;
+            DeleteOnUpload = deleteOnUpload;
+            TTL = ttl;
             Append = append;
             Cancel = cancel;
         }
@@ -49,6 +54,12 @@ namespace LogModule.Models
 
         [JsonProperty("sasUri")]
         public string SasUri { get; set; }
+
+        [JsonProperty("deleteOnUpload")]
+        public bool DeleteOnUpload { get; set; }
+
+        [JsonProperty("ttl")]
+        public TimeSpan? TTL { get; set; }
 
         [JsonProperty("append")]
         public bool Append { get; set; }

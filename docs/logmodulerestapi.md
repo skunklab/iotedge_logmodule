@@ -232,6 +232,8 @@ Upload a local file to Azure Blob storage.  The Upload File operations are 2 sig
 | blobFilename | The name of the blob file |
 | contentType | The content type of the file to set the property in Azure Blob storage, e.g., text/plain, etc. |
 | append | If TRUE the uploaded contents will be appended to an existing file; otherwise the upload will be a new file or replace an existing file. |
+| deleteOnUpload| If TRUE the local file will be deleted after upload is completed; otherwise the loal file will remain. |
+| ttl| A Time-To-Live (TimeSpan) for a local file to be upload. If the TTL is exceeded, the local file will be deleted. If an exception occurs the processor will continue attempts to upload the file until the TTL expires, i.e. one every 60 seconds.  |
 
 
 
@@ -256,3 +258,4 @@ Upload a local file to Azure Blob storage.  The Upload File operations are 2 sig
 | sasUri | SAS URI of the blob to be uploaded |
 | contentType | The content type of the file to set the property in Azure Blob storage, e.g., text/plain, etc. |
 | append | If TRUE the uploaded contents will be appended to an existing file; otherwise the upload will be a new file or replace an existing file. |
+

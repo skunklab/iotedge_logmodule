@@ -101,6 +101,8 @@ namespace LogModule.Hosts
                 string containerName = message.Properties.ContainsKey("blobPath") ? message.Properties["blobPath"] : null;
                 string targetFilename = message.Properties.ContainsKey("blobFilename") ? message.Properties["blobFilename"] : null;
                 string sasUri = message.Properties.ContainsKey("sasUri") ? message.Properties["sasUri"] : null;
+                bool deleteOnUpload = message.Properties.ContainsKey("deleteOnUpload") ? Convert.ToBoolean(message.Properties["deleteOnUpload"]) : false;
+                TimeSpan? ttl = message.Properties.ContainsKey("ttl") ? TimeSpan.Parse(message.Properties["ttl"]) : new TimeSpan?();
                 bool append = message.Properties.ContainsKey("append") ? Convert.ToBoolean(message.Properties["append"]) : false;
 
                 if (sasUri == null)

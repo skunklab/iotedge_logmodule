@@ -159,8 +159,10 @@ public static async Task UploadFileAsync()
     string blobPath = "mycontainer";
     string blobFilename = "mytest.txt";
     string contentType = "text/plain";
+    bool deleteOnUpload = true;
+    TimeSpan? ttl = TimeSpan.FromMinutes(60);
     bool append = false;
-   await client.UploadFile(path, filename, blobPath, blobFilename, contentType, append);
+   await client.UploadFile(path, filename, blobPath, blobFilename, contentType,deleteOnUpload, ttl, append);
 }
 ```
 ## Upload File using SAS URI Sample
@@ -179,8 +181,10 @@ public static async Task UploadFileBySasUriAsync()
     string filename = "test.txt";
     string sasUri = "https://<long-sas-uri>";
     string contentType = "text/plain";
+    bool deleteOnUpload = true;
+    TimeSpan? ttl = TimeSpan.FromMinutes(60);
     bool append = false;
-    await client.UploadFile(path, filename, sasUri, contentType, append);
+    await client.UploadFile(path, filename, sasUri, contentType, deleteOnUpload, ttl, append);
 }
 ```
 ## Upload a File and Append to a Blob Sample
@@ -200,8 +204,10 @@ public static async Task UploadFileAndAppendAsync()
     string blobPath = "mycontainer";
     string blobFilename = "mytest.txt";
     string contentType = "text/plain";
+    bool deleteOnUpload = true;
+    TimeSpan? ttl = TimeSpan.FromMinutes(60);
     bool append = true;
-    await client.UploadFile(path, filename, blobPath, blobFilename, contentType, append);
+    await client.UploadFile(path, filename, blobPath, blobFilename, contentType, deleteOnUpload, ttl, append);
 }
 ```
 ## Upload a File using a SAS URI and Append to a Blob Sample
@@ -220,8 +226,10 @@ public static async Task UploadFileBySasUriAndAppendAsync()
     string filename = "test.txt";
     string sasUri = " https://<long-sas-uri>";
     string contentType = "text/plain";
+    bool deleteOnUpload = true;
+    TimeSpan? ttl = TimeSpan.FromMinutes(60);
     bool append = true;
-    await client.UploadFile(path, filename, sasUri, contentType, append);
+    await client.UploadFile(path, filename, sasUri, contentType, deleteOnUpload, ttl, append);
 }
 ```
 ## Download a File Sample
@@ -302,3 +310,4 @@ public static async Task DownloadFileBySasUriAndAppendAsync()
     await client.DownloadFile(path, filename, sasUri, append);
 }
 ```					
+

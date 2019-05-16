@@ -22,9 +22,9 @@ namespace LogModule.Clients
         private readonly string deviceId;
         private readonly string moduleId;
 
-        public async Task UploadFile(string path, string filename, string blobPath, string blobFilename, string contentType, bool append = false, CancellationToken token = default(CancellationToken))
+        public async Task UploadFile(string path, string filename, string blobPath, string blobFilename, string contentType, bool deleteOnUpload = false, TimeSpan? ttl = null, bool append = false, CancellationToken token = default(CancellationToken))
         {
-            UploadFileModel model = new UploadFileModel(path, filename, blobPath, blobFilename, contentType, append);
+            UploadFileModel model = new UploadFileModel(path, filename, blobPath, blobFilename, contentType, deleteOnUpload, ttl, append);
             byte[] message = GetMessage(model);
             string jstring = JsonConvert.SerializeObject(model);
             MethodRequest request = new MethodRequest("uploadFile", Encoding.UTF8.GetBytes(jstring));            
@@ -35,9 +35,9 @@ namespace LogModule.Clients
             }
         }
         
-        public async Task UploadFile(string path, string filename, string sasUri, string contentType, bool append = false, CancellationToken token = default(CancellationToken))
+        public async Task UploadFile(string path, string filename, string sasUri, string contentType, bool deleteOnUpload = false, TimeSpan? ttl = null, bool append = false, CancellationToken token = default(CancellationToken))
         {
-            UploadFileModel model = new UploadFileModel(path, filename, sasUri, contentType, append);
+            UploadFileModel model = new UploadFileModel(path, filename, sasUri, contentType, deleteOnUpload, ttl, append);
             byte[] message = GetMessage(model);
             MethodRequest request = new MethodRequest("uploadFile", message);
             MethodResponse response = await client.InvokeMethodAsync(deviceId, moduleId, request);
