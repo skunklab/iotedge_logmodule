@@ -31,7 +31,7 @@ The Log module provides 3 APIs which 1 or more can be configure for use.
 | Get File | Returns a file as byte array from local storage | 1,2 |
 | Write File | Writes a file to local storage with an optional parameter to write as an append file prepending \r\n to the write operation. | 1,2 |
 | List Files | Return a string[] of file names in a folder. |   |
-| Remove File | Deletes a file | 1,2 |
+| Remove File | Deletes a file | 1,2,3 |
 | Truncate File | Remove the first &quot;x&quot; bytes from the beginning of a file. | 1,2,3 |
 | Compress File | Creates a new zip file from an existing file | 1,2,3 |
 | Upload File | Upload a file from local storage to Azure Blob storage with an optional parameter to write to the blob as an append file. | 1,2,3 |
