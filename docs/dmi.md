@@ -143,3 +143,37 @@ Truncates a file "test.txt" in the docker volume "./data" to a size of 100K byte
 }
 ```
 
+## List Files
+Returns a list of file names in a folder.
+
+**Direct Method Name:** listFiles
+
+| **Parameter** | **Description**                                                                                                    |
+|---------------|--------------------------------------------------------------------------------------------------------------------|
+| path          | Folder path to return a list of files in the folder.    |
+
+### Sample JSON 
+Truncates a file "test.txt" in the docker volume "./data" to a size of 100K bytes. If the file is smaller than 100K, it will not be altered.
+
+**Request**
+```
+{
+  "path": "./data"
+}
+```
+**Response**
+```
+{
+  [ "File1.txt", "File2.zip", "File3.json" ]
+}
+```
+
+
+
+
+
+
+
+
+
+
