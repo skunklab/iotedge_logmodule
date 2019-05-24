@@ -2,6 +2,7 @@
 using Microsoft.Azure.Devices.Client;
 using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,6 +22,33 @@ namespace LogModule.Clients
         private ModuleClient client;
         private readonly string deviceId;
         private readonly string moduleId;
+
+        public async Task<string[]> ListFiles(string path)
+        {
+            ListFilesModel model = new ListFilesModel(path);
+            byte[] message = GetMessage(model);
+            string jstring = JsonConvert.SerializeObject(model);
+            MethodRequest request = new MethodRequest("listFiles", Encoding.UTF8.GetBytes(jstring));
+            MethodResponse response = await client.InvokeMethodAsync(deviceId, moduleId, request);
+
+            if (response.Status != 200)
+            {
+                Console.WriteLine("DirectMethods Client listFiles failed");
+                throw new Exception("DirectMethods client failed on listFiles");
+            }
+            else
+            {
+                string jsonResult = response.ResultAsJson;
+                if(string.IsNullOrEmpty(jsonResult))
+                {
+                    return null;
+                }
+                else
+                {
+                    return JsonConvert.DeserializeObject<string[]>(jsonResult);
+                }
+            }
+        }
 
         public async Task UploadFile(string path, string filename, string blobPath, string blobFilename, string contentType, bool deleteOnUpload = false, TimeSpan? ttl = null, bool append = false, CancellationToken token = default(CancellationToken))
         {

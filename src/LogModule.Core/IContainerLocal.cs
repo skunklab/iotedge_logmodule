@@ -6,6 +6,6 @@ namespace LogModule
     {
         Task<byte[]> GetFile(string path, string filename);
         Task WriteFile(string path, string filename, byte[] body, bool append = false);
-        Task<string[]> ListFiles(string path);
+        
     }
 }

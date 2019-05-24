@@ -17,6 +17,8 @@ namespace LogModule
         Task TruncateFile(string path, string filename, int maxBytes);
         Task RemoveFile(string path, string filename);
 
+        Task<string[]> ListFiles(string path);
+
 
     }
 }

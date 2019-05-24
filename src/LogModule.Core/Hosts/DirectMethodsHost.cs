@@ -3,6 +3,8 @@ using Microsoft.Azure.Devices.Client;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -42,8 +44,33 @@ namespace LogModule.Hosts
             client.SetMethodHandlerAsync("removeFile", RemoveFileHandler, null);
             client.SetMethodHandlerAsync("truncateFile", TruncateFileHandler, null);
             client.SetMethodHandlerAsync("compressFile", CompressFileHandler, null);
+            client.SetMethodHandlerAsync("listFiles", ListFilesHandler, null);
         }
 
+        private async Task<MethodResponse> ListFilesHandler(MethodRequest request, object context)
+        {
+            string jsonString = request.DataAsJson;
+            ListFilesModel model = JsonConvert.DeserializeObject<ListFilesModel>(jsonString);
+            if(Directory.Exists(model.Path))
+            {
+                DirectoryInfo info = new DirectoryInfo(model.Path);
+                FileInfo[] files = info.GetFiles();
+                List<string> fileList = new List<string>();
+                foreach(FileInfo file in files)
+                {
+                    fileList.Add(file.Name);
+                }
+
+                string jString = JsonConvert.SerializeObject(fileList.ToArray());
+                return new MethodResponse(Encoding.UTF8.GetBytes(jString), 200);
+            }
+            else
+            {
+                return new MethodResponse(404);
+            }
+
+                
+        }
         private async Task<MethodResponse> UploadFileHandler(MethodRequest request, object context)
         {
             int response = 200;

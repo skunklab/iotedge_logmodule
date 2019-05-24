@@ -130,6 +130,26 @@ namespace LogModule
         protected CommonIO operations;
         private static ContainerRemote instance;
 
+        public virtual async Task<string[]> ListFiles(string path)
+        {
+            try
+            {
+                if (Directory.Exists(path))
+                {
+                    return await Task.FromResult<string[]>(Directory.GetFiles(path));
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                operations.LogToDocker("ListFiles", ex);
+                throw ex;
+            }
+        }
+
         public async Task DownloadFile(string path, string filename, string blobPath, string blobFilename, bool append = false, CancellationToken token = default(CancellationToken))
         {
             if (string.IsNullOrEmpty(path))

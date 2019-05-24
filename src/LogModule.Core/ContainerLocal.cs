@@ -49,25 +49,7 @@ namespace LogModule
 
         }
 
-        public virtual async Task<string[]> ListFiles(string path)
-        {
-            try
-            {
-                if (Directory.Exists(path))
-                {
-                    return await Task.FromResult<string[]>(Directory.GetFiles(path));
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch (Exception ex)
-            {
-                operations.LogToDocker("ListFiles", ex);
-                throw ex;
-            }
-        }
+        
 
         public virtual async Task WriteFile(string path, string filename, byte[] body, bool append = false)
         {
