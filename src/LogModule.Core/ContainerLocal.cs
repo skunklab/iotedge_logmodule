@@ -51,7 +51,7 @@ namespace LogModule
 
         
 
-        public virtual async Task WriteFile(string path, string filename, byte[] body, bool append = false)
+        public virtual async Task WriteFile(string path, string filename, byte[] body, bool append = false, int maxSize = 0)
         {
             if(string.IsNullOrEmpty(path))
             {
@@ -72,9 +72,14 @@ namespace LogModule
             try
             {
                 string srcFilename = operations.FixPath(path) + filename;
-                if (append)
-                {
+                if (append && maxSize < 1)
+                {                   
                     await operations.WriteAppendFileAsync(srcFilename, body);
+                }
+                else if(append && maxSize > 0)
+                {
+                    string outputFilename = operations.GetFilename(path, filename, maxSize);
+                    await operations.WriteAppendFileAsync(outputFilename, body);
                 }
                 else
                 {

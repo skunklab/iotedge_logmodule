@@ -569,6 +569,57 @@ namespace LogModule
             }
         }
 
+        public string GetFilename(string path, string filename, int maxSize = 0)
+        {
+            if(maxSize == 0)
+            {
+                return FixPath(path) + filename;
+            }
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            string[] fileList = Directory.GetFiles(path);
+            int index = 0;
+            if (fileList == null || fileList.Length == 0)
+            {
+                return FixPath(path) + filename;
+            }
+            else
+            {
+                FileInfo srcInfo = new FileInfo(filename);
+                string srcShortName = srcInfo.Name.Replace(srcInfo.Extension, "");
+
+                foreach (string file in fileList)
+                {
+                    index++;
+                    FileInfo targetInfo = new FileInfo(file);
+                    string targetShortName = targetInfo.Name.Replace(targetInfo.Extension, "");
+
+                    if (targetInfo.Length < Convert.ToInt64(maxSize) &&
+                        srcInfo.Extension.ToLowerInvariant() == targetInfo.Extension.ToLowerInvariant()
+                        && srcShortName.ToLowerInvariant() == targetShortName.ToLowerInvariant())
+                    {
+                        return FixPath(path) + filename;
+                    }
+
+                    if (targetInfo.Length < Convert.ToInt64(maxSize) &&
+                         srcInfo.Extension.ToLowerInvariant() == targetInfo.Extension.ToLowerInvariant()
+                        && String.Format($"{srcShortName.ToLowerInvariant()}_{index}") == String.Format($"{targetShortName.ToLowerInvariant()}_{index}"))
+                    {
+                        return FixPath(path) + String.Format($"{targetShortName.ToLowerInvariant()}_{index}") + srcInfo.Extension;
+                    }
+                }
+
+                return FixPath(path) + String.Format($"{srcShortName.ToLowerInvariant()}_{index}") + srcInfo.Extension;
+            }
+        }
+
+        
+
+
         public string GetContainerName(string path)
         {
             string container = null;

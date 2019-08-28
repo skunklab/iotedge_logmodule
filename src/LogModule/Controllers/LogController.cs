@@ -142,11 +142,11 @@ namespace LogModule.Controllers
         }
 
         [HttpPost("WriteFile")]
-        public async Task<HttpResponseMessage> WriteFile([FromBody] byte[] body, string path, string filename, bool append)
+        public async Task<HttpResponseMessage> WriteFile([FromBody] byte[] body, string path, string filename, bool append, int maxSize = 0)
         {
             try
             {
-                await local.WriteFile(path, filename, body, append);
+                await local.WriteFile(path, filename, body, append, maxSize);
                 return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
             }
             catch (Exception ex)

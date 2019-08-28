@@ -194,12 +194,21 @@ namespace LogModule.Clients
             }
         }
 
-        public async Task WriteFile(string path, string filename, byte[] body, bool append)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path">Folder to write file</param>
+        /// <param name="filename">Name of file to write</param>
+        /// <param name="body">Contents of the file</param>
+        /// <param name="append">If true append to existing file;otherwise write to new file.</param>
+        /// <param name="maxSize">If append is true and maxSize > 0, force appended files to be maxsize or less; otherwise use 0 for default behavior.</param>
+        /// <returns></returns>
+        public async Task WriteFile(string path, string filename, byte[] body, bool append, int maxSize = 0)
         {
             try
             {
                 HttpClient client = new HttpClient();
-                string requestUri = String.Format("http://{0}:{1}/api/Log/WriteFile?path={2}&filename={3}&append={4}", ipAddress, port, path, filename, append);
+                string requestUri = String.Format("http://{0}:{1}/api/Log/WriteFile?path={2}&filename={3}&append={4}&maxsize={5}", ipAddress, port, path, filename, append, maxSize);
                 
                 HttpContent content = new ByteArrayContent(body);
                 content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
