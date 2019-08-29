@@ -62,11 +62,11 @@ namespace LogModule.Hosts
                 }
 
                 string jString = JsonConvert.SerializeObject(fileList.ToArray());
-                return new MethodResponse(Encoding.UTF8.GetBytes(jString), 200);
+                return await Task.FromResult<MethodResponse>(new MethodResponse(Encoding.UTF8.GetBytes(jString), 200));
             }
             else
             {
-                return new MethodResponse(404);
+                return await Task.FromResult<MethodResponse>(new MethodResponse(404));
             }
 
                 
@@ -177,8 +177,7 @@ namespace LogModule.Hosts
                 Console.WriteLine("ERROR: DirectMethods-DownloadFileHandler '{0}'", ex.Message);
             }
 
-
-            return new MethodResponse(response);
+            return await Task.FromResult<MethodResponse>(new MethodResponse(response));
         }
 
         private void InternalDownloadFile(string path, string filename, string blobPath, string blobFilename, bool append, CancellationToken token)

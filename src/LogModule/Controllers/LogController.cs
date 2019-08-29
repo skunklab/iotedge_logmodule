@@ -29,6 +29,7 @@ namespace LogModule.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"DownloadFile - {ex.Message}");
                 return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError); // { ReasonPhrase = ex.Message };
             }
 
@@ -44,6 +45,7 @@ namespace LogModule.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"DownloadFile2 - {ex.Message}");
                 return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError); //{ ReasonPhrase = ex.Message };
             }
         }

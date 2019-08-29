@@ -136,7 +136,22 @@ namespace LogModule
             {
                 if (Directory.Exists(path))
                 {
-                    return await Task.FromResult<string[]>(Directory.GetFiles(path));
+                    DirectoryInfo info = new DirectoryInfo(path);
+                    FileInfo[] finfo = info.GetFiles();
+                    List<string> list = new List<string>();
+                    foreach(var item in finfo)
+                    {
+                        list.Add(item.Name);
+                    }
+                    //return await Task.FromResult<string[]>(Directory.GetFiles(path));
+                    if (list.Count > 0)
+                    {
+                        return await Task.FromResult<string[]>(list.ToArray<string>());
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
                 else
                 {
@@ -302,7 +317,7 @@ namespace LogModule
 
                         if(uploadQueue.ContainsKey(fileToWrite))
                         {
-                            await operations.DeleteFileAsync(fileToWrite);
+                            await operations.DeleteFileAsync(fileToRead);
                             uploadQueue.Remove(fileToWrite);
                         }
                     }

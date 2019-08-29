@@ -8,7 +8,7 @@
     <FileVersion>0.1.0.8</FileVersion>
     <PackageReleaseNotes>IoT Edge Log Module</PackageReleaseNotes>
     <Description>Azure IoT Edge Log Module used to log files in docker, copy local files to Azure Blob storage, and download Azure Blob storage files to local storage.</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageId>IoTEdge.LogModule.Core</PackageId>
     <PackageProjectUrl>https://github.com/skunklab/iotedge_logmodule</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/skunklab/iotedge_logmodule/master/LICENSE</PackageLicenseUrl>

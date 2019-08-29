@@ -571,54 +571,33 @@ namespace LogModule
 
         public string GetFilename(string path, string filename, int maxSize = 0)
         {
-            if(maxSize == 0)
-            {
-                return FixPath(path) + filename;
-            }
+            string fqn = FixPath(path) + filename;
 
-            if (!Directory.Exists(path))
+            if (maxSize > 0 && File.Exists(fqn))
             {
-                Directory.CreateDirectory(path);
-            }
-
-            string[] fileList = Directory.GetFiles(path);
-            int index = 0;
-            if (fileList == null || fileList.Length == 0)
-            {
-                return FixPath(path) + filename;
-            }
-            else
-            {
-                FileInfo srcInfo = new FileInfo(filename);
-                string srcShortName = srcInfo.Name.Replace(srcInfo.Extension, "");
-
-                foreach (string file in fileList)
+                FileInfo info = new FileInfo(fqn);
+                if (info.Length > Convert.ToInt64(maxSize))
                 {
-                    index++;
-                    FileInfo targetInfo = new FileInfo(file);
-                    string targetShortName = targetInfo.Name.Replace(targetInfo.Extension, "");
-
-                    if (targetInfo.Length < Convert.ToInt64(maxSize) &&
-                        srcInfo.Extension.ToLowerInvariant() == targetInfo.Extension.ToLowerInvariant()
-                        && srcShortName.ToLowerInvariant() == targetShortName.ToLowerInvariant())
-                    {
-                        return FixPath(path) + filename;
-                    }
-
-                    if (targetInfo.Length < Convert.ToInt64(maxSize) &&
-                         srcInfo.Extension.ToLowerInvariant() == targetInfo.Extension.ToLowerInvariant()
-                        && String.Format($"{srcShortName.ToLowerInvariant()}_{index}") == String.Format($"{targetShortName.ToLowerInvariant()}_{index}"))
-                    {
-                        return FixPath(path) + String.Format($"{targetShortName.ToLowerInvariant()}_{index}") + srcInfo.Extension;
-                    }
+                    RenameFile(path, filename);
                 }
-
-                return FixPath(path) + String.Format($"{srcShortName.ToLowerInvariant()}_{index}") + srcInfo.Extension;
             }
-        }
 
+            return fqn;
+        }
         
 
+        public void RenameFile(string path, string filename)
+        {
+            string fqn = FixPath(path) + filename;
+            FileInfo srcInfo = new FileInfo(fqn);
+            string ext = srcInfo.Extension;
+
+            string srcShortName = srcInfo.Name.Replace(srcInfo.Extension, "");
+            string newFile = FixPath(path) + String.Format($"{srcShortName.ToLowerInvariant()}_{ DateTime.UtcNow.ToString("yyyy-dd-mmTHH-MM-ss-ffff")}") + ext;
+            File.Move(fqn, newFile);
+            File.Delete(fqn);
+
+        }
 
         public string GetContainerName(string path)
         {

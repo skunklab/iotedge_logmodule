@@ -154,11 +154,11 @@ namespace LogModule.Clients
                 string requestUri = null;
                 if (ttl.HasValue)
                 {
-                    requestUri = String.Format("http://{0}:{1}/api/Log/UploadFile?path={2}&filename={3}&blobPath={4}&blobFilename={5}&contentType={6}&append={7}&deleteonupload{8}&ttl{9}", ipAddress, port, path, filename, blobPath, blobFilename, contentType, append, deleteOnUpload, ttl.Value.ToString());
+                    requestUri = String.Format("http://{0}:{1}/api/Log/UploadFile?path={2}&filename={3}&blobPath={4}&blobFilename={5}&contentType={6}&append={7}&deleteonupload={8}&ttl{9}", ipAddress, port, path, filename, blobPath, blobFilename, contentType, append, deleteOnUpload, ttl.Value.ToString());
                 }
                 else
                 {
-                    requestUri = String.Format("http://{0}:{1}/api/Log/UploadFile?path={2}&filename={3}&blobPath={4}&blobFilename={5}&contentType={6}&append={7}&deleteonupload{8}", ipAddress, port, path, filename, blobPath, blobFilename, contentType, append, deleteOnUpload);
+                    requestUri = String.Format("http://{0}:{1}/api/Log/UploadFile?path={2}&filename={3}&blobPath={4}&blobFilename={5}&contentType={6}&append={7}&deleteonupload={8}", ipAddress, port, path, filename, blobPath, blobFilename, contentType, append, deleteOnUpload);
                 }
                
                 HttpResponseMessage response = await client.PostAsync(requestUri,null);
