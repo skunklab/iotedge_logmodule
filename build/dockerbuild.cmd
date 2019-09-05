@@ -10,7 +10,15 @@ dotnet publish "..\src\LogModule\LogModule.csproj" -c Release -o "..\..\build\Lo
 
 
 
+docker rmi skunklab/iotedge-logmodule
+docker rmi iotedge-logmodule
+
+
 docker build -t iotedge-logmodule ./LogModule-Out
+
+docker tag iotedge-logmodule skunklab/iotedge-logmodule
+
+docker push skunklab/iotedge-logmodule
 
 
 

@@ -592,8 +592,13 @@ namespace LogModule
             FileInfo srcInfo = new FileInfo(fqn);
             string ext = srcInfo.Extension;
 
+            long ticks = DateTime.UtcNow.Ticks;
+            DateTimeOffset dto = new DateTimeOffset(DateTime.UtcNow);
+            long unix = dto.ToUnixTimeSeconds();
+            string epoch = unix.ToString();
+
             string srcShortName = srcInfo.Name.Replace(srcInfo.Extension, "");
-            string newFile = FixPath(path) + String.Format($"{srcShortName.ToLowerInvariant()}_{ DateTime.UtcNow.ToString("yyyy-dd-mmTHH-MM-ss-ffff")}") + ext;
+            string newFile = FixPath(path) + String.Format($"{srcShortName.ToLowerInvariant()}_{epoch}") + ext;
             File.Move(fqn, newFile);
             File.Delete(fqn);
 

@@ -58,6 +58,7 @@ Writes file to a docker volume.  If append is TRUE, the write will append to an 
 | Path | Folder path of docker volume relative to the log module, e.g., &quot;./data&quot; |
 | Filename | The name of the file to write. |
 | Append | TRUE is the data is to be appended to an existing file; otherwise FALSE |
+| MaxSize | Optional default is 0. Can be used when appending a file and need it to be a maximum size. When exceeded a new file is started and old file renamed. |
 
 # Remove File
 
