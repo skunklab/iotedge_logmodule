@@ -71,6 +71,11 @@ namespace LogModule
 
             try
             {
+                if(!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
                 string srcFilename = operations.FixPath(path) + filename;
                 if (append && maxSize < 1)
                 {                   

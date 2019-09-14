@@ -77,12 +77,14 @@ namespace LogModule
             await AccessWaitAsync(filename, TimeSpan.FromSeconds(5));
 
             readContainer.Add(filename.ToLowerInvariant());
+            byte[] message = null;
 
             try
             {
+
                 using (FileStream stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
-                    byte[] message = null;
+                    
                     int bytesRead = 0;
                     do
                     {
@@ -109,8 +111,10 @@ namespace LogModule
                         }
                     } while (bytesRead > 0);
 
-                    return message;
+                    stream.Close();
                 }
+
+                return message;
             }
             finally
             {
@@ -220,12 +224,19 @@ namespace LogModule
         }
         public async Task DeleteFileAsync(string filename)
         {
+            if(!File.Exists(filename))
+            {
+                throw new FileNotFoundException("File not found.");
+            }
+
             await AccessWaitAsync(filename.ToLowerInvariant(), TimeSpan.FromSeconds(5));
-            readContainer.Add(filename.ToLowerInvariant());
+            if (!readContainer.Contains(filename.ToLowerInvariant()))
+            {
+                readContainer.Add(filename.ToLowerInvariant());
+            }
 
             try
-            {
-                
+            {  
                 File.Delete(filename);
             }
             finally

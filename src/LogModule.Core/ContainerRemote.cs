@@ -283,10 +283,19 @@ namespace LogModule
             }
 
             string fileToWrite = null;
+            if(!Directory.Exists(path))
+            {
+                throw new DirectoryNotFoundException("Path does not exist.");
+            }
+
+            string fileToRead = operations.FixPath(path) + filename;
+            if(!File.Exists(fileToRead))
+            {
+                throw new FileNotFoundException("Filename not found.");
+            }
 
             try
             {
-                string fileToRead = operations.FixPath(path) + filename;
                 string container = operations.GetContainerName(blobPath);
                 fileToWrite = operations.GetFilenameForContainer(blobPath, blobFilename);
 
@@ -318,7 +327,7 @@ namespace LogModule
                         if(uploadQueue.ContainsKey(fileToWrite))
                         {
                             await operations.DeleteFileAsync(fileToRead);
-                            uploadQueue.Remove(fileToWrite);
+                            uploadQueue.Remove(fileToWrite);                            
                         }
                     }
                 }
@@ -333,10 +342,8 @@ namespace LogModule
                     lf.IsLocked = false;
                     uploadQueue[fileToWrite] = lf;
                 }
-                else
-                {
-                    throw ex;
-                }
+
+                throw ex;
             }
         }
 
@@ -362,9 +369,19 @@ namespace LogModule
                 throw new ArgumentNullException("contentType");
             }
 
+            if (!Directory.Exists(path))
+            {
+                throw new DirectoryNotFoundException("Path does not exist.");
+            }
+
+            string fileToRead = operations.FixPath(path) + filename;
+            if (!File.Exists(fileToRead))
+            {
+                throw new FileNotFoundException("Filename not found.");
+            }
+
             try
             {
-                string fileToRead = operations.FixPath(path) + filename;
                 if (deleteOnUpload && !uploadQueue.ContainsKey(sasUri))
                 {
                     uploadQueue.Add(sasUri, new LockFile() { IsLocked = true, TTL = ttl, Append = append, FileToRead = fileToRead, SasUri = sasUri, ContentType = contentType });
@@ -401,10 +418,8 @@ namespace LogModule
                     lf.IsLocked = false;
                     uploadQueue[sasUri] = lf;
                 }
-                else
-                {
-                    throw ex;
-                }
+
+                throw ex;
             }
         }
 

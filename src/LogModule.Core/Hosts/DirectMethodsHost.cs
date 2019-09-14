@@ -105,7 +105,7 @@ namespace LogModule.Hosts
                             uploadTokenSources.Remove(key);
                         }
 
-                        await remote.UploadFile(model.Path, model.Filename, model.BlobPath, model.BlobFilename, model.ContentType, model.Append);
+                        await remote.UploadFile(model.Path, model.Filename, model.BlobPath, model.BlobFilename, model.ContentType, model.DeleteOnUpload, model.TTL, model.Append);                        
                     }
                     else
                     {
@@ -115,7 +115,7 @@ namespace LogModule.Hosts
                         }
 
                         uploadTokenSources.Add(model.SasUri, new CancellationTokenSource());
-                        await remote.UploadFile(model.Path, model.Filename, model.SasUri, model.ContentType, model.Append);
+                        await remote.UploadFile(model.Path, model.Filename, model.SasUri, model.ContentType, model.DeleteOnUpload, model.TTL, model.Append);
                     }
                 }
             }

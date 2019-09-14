@@ -28,7 +28,7 @@ namespace LogModule
             string accountName = System.Environment.GetEnvironmentVariable("LM_BlobStorageAccountName");
             string accountKey = System.Environment.GetEnvironmentVariable("LM_BlobStorageAccountKey");
             string features = System.Environment.GetEnvironmentVariable("LM_Features");
-
+            
             WriteConfigValidation(portString, accountName, accountKey, features);
                        
             dockerConfig = new DockerConfig(accountName, accountKey, string.IsNullOrEmpty(portString) ? 8877 : Convert.ToInt32(portString), features);
@@ -37,7 +37,6 @@ namespace LogModule
             Task.WhenAll(task);
 
             done = new ManualResetEventSlim(false);
-
 
             Console.CancelKeyPress += (sender, eventArgs) =>
             {
@@ -73,8 +72,7 @@ namespace LogModule
 
                 if (dockerConfig.FeatureFlags.HasFlag(LogModuleFeatureFlags.DirectMethodsHost))
                 {
-                    directMethodsClient = await ModuleClient.CreateFromEnvironmentAsync(TransportType.Mqtt); 
-                   
+                    directMethodsClient = await ModuleClient.CreateFromEnvironmentAsync(TransportType.Mqtt);
                     await directMethodsClient.OpenAsync();
                     Console.WriteLine("Direct Methods client created");
 
