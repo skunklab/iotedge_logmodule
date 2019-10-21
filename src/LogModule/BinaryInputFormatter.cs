@@ -29,21 +29,29 @@ namespace LogModule
 
         public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context)
         {
-            var request = context.HttpContext.Request;
-            var contentType = context.HttpContext.Request.ContentType;
-
-
-            if (contentType == "application/octet-stream")
+            try
             {
-                using (var ms = new MemoryStream(2048))
-                {
-                    await request.Body.CopyToAsync(ms);
-                    var content = ms.ToArray();
-                    return await InputFormatterResult.SuccessAsync(content);
-                }
-            }
+                var request = context.HttpContext.Request;
+                var contentType = context.HttpContext.Request.ContentType;
 
-            return await InputFormatterResult.FailureAsync();
+
+                if (contentType == "application/octet-stream")
+                {
+                    using (var ms = new MemoryStream(2048))
+                    {
+                        await request.Body.CopyToAsync(ms);
+                        var content = ms.ToArray();
+                        return await InputFormatterResult.SuccessAsync(content);
+                    }
+                }
+
+                return await InputFormatterResult.FailureAsync();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"ReadRequestBodyAsync error - {ex.Message}");
+                throw ex;
+            }
         }
 
 

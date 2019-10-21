@@ -39,12 +39,13 @@ namespace LogModule.Hosts
 
         public void Init()
         {            
-            client.SetMethodHandlerAsync("uploadFile", UploadFileHandler, null);
-            client.SetMethodHandlerAsync("downloadFile", DownloadFileHandler, null);
-            client.SetMethodHandlerAsync("removeFile", RemoveFileHandler, null);
-            client.SetMethodHandlerAsync("truncateFile", TruncateFileHandler, null);
-            client.SetMethodHandlerAsync("compressFile", CompressFileHandler, null);
-            client.SetMethodHandlerAsync("listFiles", ListFilesHandler, null);
+            client.SetMethodHandlerAsync("uploadFile", UploadFileHandler, null).GetAwaiter();
+            client.SetMethodHandlerAsync("downloadFile", DownloadFileHandler, null).GetAwaiter();
+            client.SetMethodHandlerAsync("removeFile", RemoveFileHandler, null).GetAwaiter();
+            client.SetMethodHandlerAsync("listFiles", ListFilesHandler, null).GetAwaiter();
+            //client.SetMethodHandlerAsync("truncateFile", TruncateFileHandler, null).GetAwaiter();
+            //client.SetMethodHandlerAsync("compressFile", CompressFileHandler, null).GetAwaiter();
+            
         }
 
         private async Task<MethodResponse> ListFilesHandler(MethodRequest request, object context)
@@ -215,45 +216,45 @@ namespace LogModule.Hosts
             return new MethodResponse(response);
         }
 
-        private async Task<MethodResponse> TruncateFileHandler(MethodRequest request, object context)
-        {
-            int response = 200;
+        //private async Task<MethodResponse> TruncateFileHandler(MethodRequest request, object context)
+        //{
+        //    int response = 200;
 
-            try
-            {
-                string jsonString = request.DataAsJson;
-                TruncateFileModel model = JsonConvert.DeserializeObject<TruncateFileModel>(jsonString);
-                await remote.TruncateFile(model.Path, model.Filename, model.MaxBytes);
-            }
-            catch (Exception ex)
-            {
-                response = 500;
-                Console.WriteLine("ERROR: DirectMethods-TruncateFileHandler '{0}'", ex.Message);
-            }
-
-
-            return new MethodResponse(response);
-        }
-
-        private async Task<MethodResponse> CompressFileHandler(MethodRequest request, object context)
-        {
-            int response = 200;
-
-            try
-            {
-                string jsonString = request.DataAsJson;
-                CompressFileModel model = JsonConvert.DeserializeObject<CompressFileModel>(jsonString);
-                await remote.CompressFile(model.Path, model.Filename, model.CompressPath, model.CompressFilename);
-            }
-            catch (Exception ex)
-            {
-                response = 500;
-                Console.WriteLine("ERROR: DirectMethods-CompressFileHandler '{0}'", ex.Message);
-            }
+        //    try
+        //    {
+        //        string jsonString = request.DataAsJson;
+        //        TruncateFileModel model = JsonConvert.DeserializeObject<TruncateFileModel>(jsonString);
+        //        await remote.TruncateFile(model.Path, model.Filename, model.MaxBytes);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response = 500;
+        //        Console.WriteLine("ERROR: DirectMethods-TruncateFileHandler '{0}'", ex.Message);
+        //    }
 
 
-            return new MethodResponse(response);
-        }
+        //    return new MethodResponse(response);
+        //}
+
+        //private async Task<MethodResponse> CompressFileHandler(MethodRequest request, object context)
+        //{
+        //    int response = 200;
+
+        //    try
+        //    {
+        //        string jsonString = request.DataAsJson;
+        //        CompressFileModel model = JsonConvert.DeserializeObject<CompressFileModel>(jsonString);
+        //        await remote.CompressFile(model.Path, model.Filename, model.CompressPath, model.CompressFilename);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response = 500;
+        //        Console.WriteLine("ERROR: DirectMethods-CompressFileHandler '{0}'", ex.Message);
+        //    }
+
+
+        //    return new MethodResponse(response);
+        //}
 
         #region Events
         private void Remote_OnUploadCompleted(object sender, BlobCompleteEventArgs e)

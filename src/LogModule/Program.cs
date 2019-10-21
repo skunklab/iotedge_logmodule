@@ -1,6 +1,7 @@
 ﻿using LogModule.Configuration;
 using LogModule.Hosts;
 using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Azure.Devices.Client;
@@ -119,22 +120,40 @@ namespace LogModule
 
             Exception inner = e.Exception.InnerException;
             int indexer = 0;
+            string msg = null;
             while (inner != null)
             {
                 indexer++;
                 Console.WriteLine("Inner index {0} '{1}'", indexer, inner.Message);
+                
                 if (String.IsNullOrEmpty(inner.Message))
                 {
                     Console.WriteLine("-------------- Start Stack Trace {0} ---------------", indexer);
                     Console.WriteLine(inner.StackTrace);
                     Console.WriteLine("-------------- End Stack Trace {0} ---------------", indexer);
                 }
+
+                if(inner.Message.ToLowerInvariant().Contains("connection reset by peer"))
+                {
+                    msg = inner.Message.ToLowerInvariant();
+                    break;
+                }
+
                 inner = inner.InnerException;
             }
 
             Console.WriteLine("********** End Unobserved Exception Block **********");
-            Console.WriteLine("----->  Forcing a restart <-----");
-            done.Set();
+
+            if (msg != null && msg.Contains("connection reset by peer"))
+            {
+                Console.WriteLine("connection reset by peer and observed.");               
+            }
+            else
+            {
+                Console.WriteLine("Unhandled unobserved exception.");
+                Console.WriteLine("----->  Forcing a restart <-----");
+                done.Set();
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

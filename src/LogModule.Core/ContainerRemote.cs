@@ -326,8 +326,31 @@ namespace LogModule
 
                         if(uploadQueue.ContainsKey(fileToWrite))
                         {
-                            await operations.DeleteFileAsync(fileToRead);
-                            uploadQueue.Remove(fileToWrite);                            
+                            try
+                            {
+
+                                await operations.DeleteFileAsync(fileToRead);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Failed to deleted file (UploadFile) - {ex.Message}");
+                                if (File.Exists(fileToRead))
+                                {
+                                    try
+                                    {
+                                        await Task.Delay(10000);
+                                        File.Delete(fileToRead);
+                                    }
+                                    catch (Exception ex2)
+                                    {
+                                        Console.WriteLine($"Failed 2nd attempt to delete file (UploadFile) - {ex2.Message}");
+                                    }
+                                }
+                            }
+                            finally
+                            {
+                                uploadQueue.Remove(fileToWrite);
+                            }
                         }
                     }
                 }

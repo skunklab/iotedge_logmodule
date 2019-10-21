@@ -33,16 +33,24 @@ namespace LogModule
 
         public override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context)
         {
-            HttpResponseMessage response = (HttpResponseMessage)context.Object;
-            if (response.Content != null)
+            try
             {
-                byte[] content = await response.Content.ReadAsByteArrayAsync();
-                context.HttpContext.Response.ContentLength = content.Length;
-                await context.HttpContext.Response.Body.WriteAsync(content);
+                HttpResponseMessage response = (HttpResponseMessage)context.Object;
+                if (response.Content != null)
+                {
+                    byte[] content = await response.Content.ReadAsByteArrayAsync();
+                    context.HttpContext.Response.ContentLength = content.Length;
+                    await context.HttpContext.Response.Body.WriteAsync(content);
+                }
+                else
+                {
+                    return;
+                }
             }
-            else
+            catch(Exception ex)
             {
-                return;
+                Console.WriteLine($"WriteResponseBodyAsync error - {ex.Message}");
+                throw ex;
             }
         }
 
