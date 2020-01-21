@@ -97,6 +97,11 @@ namespace LogModule
                         byte[] buffer = new byte[ushort.MaxValue];
                         bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
 
+                        if(bytesRead == 0)
+                        {
+                            break;
+                        }
+
                         if(message == null)
                         {
                             message = new byte[bytesRead];

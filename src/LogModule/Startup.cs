@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace LogModule
 {
@@ -15,6 +17,7 @@ namespace LogModule
 
         public IConfiguration Configuration { get; }
 
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -22,25 +25,26 @@ namespace LogModule
             {
                 o.InputFormatters.Insert(0, new BinaryInputFormatter());
                 o.OutputFormatters.Insert(0, new BinaryOutputFormatter());
+                o.EnableEndpointRouting = false;
             });
+
+            services.AddLogging(log =>
+            {
+                log.AddConsole();
+                log.SetMinimumLevel(LogLevel.Information);
+            });
+
+            services.AddRouting();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseRouting();
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute("default", "{controller=Log}/{action=Index}/{id?}");
-            });
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Log Web Host Service Running...");
+                endpoints.MapControllerRoute("default", "{controller=Log}/{action=Index}/{id?}");
             });
         }
     }

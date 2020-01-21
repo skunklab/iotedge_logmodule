@@ -212,7 +212,7 @@ namespace LogModule.Clients
                 
                 HttpContent content = new ByteArrayContent(body);
                 content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
-                //client.DefaultRequestHeaders.Add("Content-Type", "application/octet-stream");
+                
 
                 HttpResponseMessage response = await client.PostAsync(requestUri, content);
                 if (response.StatusCode != System.Net.HttpStatusCode.OK)

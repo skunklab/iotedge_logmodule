@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Azure.Devices.Client;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,7 +21,6 @@ namespace LogModule
         private static ContainerRemote remote;
         private static ModuleClient edgeHubClient;
         private static ModuleClient directMethodsClient;
-        private static ManualResetEventSlim done;
 
         public static void Main(string[] args)
         {
@@ -29,27 +29,35 @@ namespace LogModule
             string accountName = System.Environment.GetEnvironmentVariable("LM_BlobStorageAccountName");
             string accountKey = System.Environment.GetEnvironmentVariable("LM_BlobStorageAccountKey");
             string features = System.Environment.GetEnvironmentVariable("LM_Features");
-            
+
             WriteConfigValidation(portString, accountName, accountKey, features);
-                       
             dockerConfig = new DockerConfig(accountName, accountKey, string.IsNullOrEmpty(portString) ? 8877 : Convert.ToInt32(portString), features);
             
             Task task = RunAsync(args);
             Task.WhenAll(task);
 
-            done = new ManualResetEventSlim(false);
+            CreateHostBuilder(args).Build().Run();
 
-            Console.CancelKeyPress += (sender, eventArgs) =>
-            {
-
-                done.Set();
-                eventArgs.Cancel = true;
-            };
-
-            Console.WriteLine("Log Module is running...");
-            done.Wait();
+            
 
         }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.ConfigureKestrel((options) =>
+                {
+                    
+                        new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
+                    options.Limits.MinResponseDataRate =
+                        new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
+
+                    options.ListenAnyIP(dockerConfig.Port);
+
+                });
+                webBuilder.UseStartup<Startup>();
+            });
 
         private static async Task RunAsync(string[] args)
         {
@@ -73,7 +81,12 @@ namespace LogModule
 
                 if (dockerConfig.FeatureFlags.HasFlag(LogModuleFeatureFlags.DirectMethodsHost))
                 {
+                    #if DEBUG
+                                        directMethodsClient = ModuleClient.CreateFromConnectionString("HostName=vrtuhub.azure-devices.net;DeviceId=device1;ModuleId=logmodule;SharedAccessKey=Gw9UrK1QcQ6kgCKE0IBCtJ03ZHPAd2PIeXOyLNBgSeA=", TransportType.Mqtt);
+                    #else
+
                     directMethodsClient = await ModuleClient.CreateFromEnvironmentAsync(TransportType.Mqtt);
+#endif
                     await directMethodsClient.OpenAsync();
                     Console.WriteLine("Direct Methods client created");
 
@@ -87,15 +100,15 @@ namespace LogModule
                     Console.WriteLine("-----> Direct Methods Host NOT configured <-----");
                 }
 
-                if (dockerConfig.FeatureFlags.HasFlag(LogModuleFeatureFlags.WebHost))
-                {
-                    CreateWebHostBuilder(args).Build().Run();
-                    Console.WriteLine("Web Host Initialized");
-                }
-                else
-                {
-                    Console.WriteLine("-----> Web Host NOT configured <-----");
-                }
+                //if (dockerConfig.FeatureFlags.HasFlag(LogModuleFeatureFlags.WebHost))
+                //{
+                //    //CreateWebHostBuilder(args).Build().Run();
+                //    //Console.WriteLine("Web Host Initialized");
+                //}
+                //else
+                //{
+                //    Console.WriteLine("-----> Web Host NOT configured <-----");
+                //}
 
                 Console.WriteLine("Started all services");
             }
@@ -144,33 +157,23 @@ namespace LogModule
 
             Console.WriteLine("********** End Unobserved Exception Block **********");
 
-            if (msg != null && msg.Contains("connection reset by peer"))
-            {
-                Console.WriteLine("connection reset by peer and observed.");               
-            }
-            else
-            {
-                Console.WriteLine("Unhandled unobserved exception.");
-                Console.WriteLine("----->  Forcing a restart <-----");
-                done.Set();
-            }
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseKestrel(options =>
-                {
-                    options.Limits.MaxConcurrentConnections = 100;
-                    options.Limits.MaxConcurrentUpgradedConnections = 100;
-                    options.Limits.MaxRequestBodySize = 1000 * 1024;
-                    options.Limits.MinRequestBodyDataRate =
-                        new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
-                    options.Limits.MinResponseDataRate =
-                        new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
-                    options.ListenAnyIP(dockerConfig.Port);
+        //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        //    WebHost.CreateDefaultBuilder(args)
+        //        .UseStartup<Startup>()
+        //        .UseKestrel(options =>
+        //        {
+        //            options.Limits.MaxConcurrentConnections = 100;
+        //            options.Limits.MaxConcurrentUpgradedConnections = 100;
+        //            options.Limits.MaxRequestBodySize = 1000 * 1024;
+        //            options.Limits.MinRequestBodyDataRate =
+        //                new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
+        //            options.Limits.MinResponseDataRate =
+        //                new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
+        //            options.ListenAnyIP(dockerConfig.Port);
 
-                });
+        //        });
 
         private static void WriteConfigValidation(string portString, string accountName, string accountKey, string features)
         {
