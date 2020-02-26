@@ -15,7 +15,11 @@ namespace LogModule.Controllers
             string accountName = System.Environment.GetEnvironmentVariable("LM_BlobStorageAccountName");
             string accountKey = System.Environment.GetEnvironmentVariable("LM_BlobStorageAccountKey");
             local = ContainerLocal.Create(accountName, accountKey);
+            local.OnUploadBytesTransferred += Local_OnUploadBytesTransferred;
+            local.OnUploadCompleted += Local_OnUploadCompleted;
         }
+
+        
 
         private LogModule.ContainerLocal local;
 
@@ -171,6 +175,33 @@ namespace LogModule.Controllers
             {
                 Console.WriteLine(ex.Message);
                 return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError); //{ ReasonPhrase = ex.Message };
+            }
+        }
+
+        private void Local_OnUploadCompleted(object sender, BlobCompleteEventArgs e)
+        {
+            try
+            {
+                Console.WriteLine($"{e.Filename} - upload complete.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception OnUploadCompleted event - {ex.Message}");
+            }
+
+        }
+
+        private void Local_OnUploadBytesTransferred(object sender, BytesTransferredEventArgs e)
+        {
+            try
+            {
+                double fraction = Convert.ToDouble(e.BytesTransferred) / Convert.ToDouble(e.Length);
+                double percent = Math.Round(fraction, 4);
+                Console.WriteLine($"{e.Filename} - {percent} % complete.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception OnUploadBytesTransferred event - {ex.Message}");
             }
         }
     }

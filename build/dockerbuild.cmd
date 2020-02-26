@@ -4,19 +4,17 @@
 ::msbuild ..\src\LogModule\LogModule.csproj /t:Clean,Rebuild,restore /p:OutputPath=..\..\build\LogModule\Output /p:Configuration=Release /fl1 /fl2 /fl3 /flp1:logfile=.\BuildOutput\LogModule.log_errors;errorsonly /flp2:logfile=.\BuildOutput\LogModule_warnings.log;warningsonly /flp3:logfile=.\BuildOutput\LogModule.log
 
 
-dotnet publish "..\src\LogModule\LogModule.csproj" -c Release -f netcoreapp3.1 -o "LogModule"
+::dotnet publish "..\src\LogModule\LogModule.csproj" -c Release -f netcoreapp3.1 -o "LogModule"
 
+dotnet publish "..\src\LogModule.Core\LogModule.Core.csproj" -c Release -o "LogModule.Core"
 
+dotnet publish "..\src\LogModule\LogModule.csproj" -c Release -o "LogModule"
 
-::dotnet publish "..\src\LogModule.Core\LogModule.Core.csproj" -c Release -o "..\..\build\LogModule.Core-Out"
+docker rmi skunklab/iotedge-logmodule:v3.1
 
-::dotnet publish "..\src\LogModule\LogModule.csproj" -c Release -o "..\..\build\LogModule-Out"
+docker build -t skunklab/iotedge-logmodule:v3.1 ./LogModule
 
-docker rmi skunklab/iotedge-logmodule:v3.0.2
-
-docker build -t skunklab/iotedge-logmodule:v3.0.2 ./LogModule
-
-docker push skunklab/iotedge-logmodule:v3.0.2
+docker push skunklab/iotedge-logmodule:v3.1
 
 
 

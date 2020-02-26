@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Azure.Devices.Client;
+using Microsoft.Azure.Devices.Common;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading;
@@ -32,14 +33,10 @@ namespace LogModule
 
             WriteConfigValidation(portString, accountName, accountKey, features);
             dockerConfig = new DockerConfig(accountName, accountKey, string.IsNullOrEmpty(portString) ? 8877 : Convert.ToInt32(portString), features);
-            
-            Task task = RunAsync(args);
-            Task.WhenAll(task);
+
+            RunAsync(args).GetAwaiter();
 
             CreateHostBuilder(args).Build().Run();
-
-            
-
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -81,14 +78,24 @@ namespace LogModule
 
                 if (dockerConfig.FeatureFlags.HasFlag(LogModuleFeatureFlags.DirectMethodsHost))
                 {
-                    #if DEBUG
-                                        directMethodsClient = ModuleClient.CreateFromConnectionString("HostName=vrtuhub.azure-devices.net;DeviceId=device1;ModuleId=logmodule;SharedAccessKey=Gw9UrK1QcQ6kgCKE0IBCtJ03ZHPAd2PIeXOyLNBgSeA=", TransportType.Mqtt);
-                    #else
-
-                    directMethodsClient = await ModuleClient.CreateFromEnvironmentAsync(TransportType.Mqtt);
-#endif
-                    await directMethodsClient.OpenAsync();
-                    Console.WriteLine("Direct Methods client created");
+                    bool opened = false;
+                    while (!opened)
+                    {
+                        try
+                        {
+                            directMethodsClient = await ModuleClient.CreateFromEnvironmentAsync(TransportType.Mqtt);
+                            
+                            await directMethodsClient.OpenAsync();
+                            Console.WriteLine("Direct Methods client open.");
+                            opened = true;
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine($"Direct Method host not open - {ex.Message} Waiting 15 secs to try again.");
+                            await Task.Delay(15000);
+                        }
+                    }
+                    
 
                     remote = ContainerRemote.Create(dockerConfig.BlobStorageAccountName, dockerConfig.BlobStorageAccountKey);
                     directMethodsHost = new DirectMethodsHost(directMethodsClient, remote);
